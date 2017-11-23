@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F12C08D1FC77E9D001374BF /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F12C08C1FC77E9D001374BF /* Castle.swift */; };
 		0FF18FCE1FC2332E00FFB194 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */; };
 		0FF18FD01FC2332E00FFB194 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF18FCF1FC2332E00FFB194 /* GameScene.sks */; };
 		0FF18FD21FC2332E00FFB194 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF18FD11FC2332E00FFB194 /* Actions.sks */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F12C08C1FC77E9D001374BF /* Castle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
 		0FF18FCA1FC2332E00FFB194 /* PlayAround.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayAround.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FF18FCF1FC2332E00FFB194 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				0FF18FCF1FC2332E00FFB194 /* GameScene.sks */,
 				0FF18FD11FC2332E00FFB194 /* Actions.sks */,
 				0FF18FD31FC2332E00FFB194 /* GameScene.swift */,
+				0F12C08C1FC77E9D001374BF /* Castle.swift */,
 				0FF18FD51FC2332E00FFB194 /* GameViewController.swift */,
 				0FF18FD71FC2332E00FFB194 /* Main.storyboard */,
 				0FF18FDA1FC2332E00FFB194 /* Assets.xcassets */,
@@ -150,6 +153,7 @@
 				0FF18FD41FC2332E00FFB194 /* GameScene.swift in Sources */,
 				0FF18FD61FC2332E00FFB194 /* GameViewController.swift in Sources */,
 				0FF18FCE1FC2332E00FFB194 /* AppDelegate.swift in Sources */,
+				0F12C08D1FC77E9D001374BF /* Castle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
