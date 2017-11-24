@@ -223,8 +223,8 @@ class GameScene: SKScene {
     let finish = SKAction.run {
       print("Finish")
       // reset play to NOT be affected by wind
-      self.thePlayer.physicsBody?.isDynamic = false
-      self.thePlayer.physicsBody?.affectedByGravity = false
+//      self.thePlayer.physicsBody?.isDynamic = false
+//      self.thePlayer.physicsBody?.affectedByGravity = false
     }
     
     let sequence = SKAction.sequence([
