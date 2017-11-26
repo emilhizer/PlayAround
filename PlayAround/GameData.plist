@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Levels</key>
+	<dict>
+		<key>Grassland</key>
+		<dict>
+			<key>NPC</key>
+			<dict>
+				<key>Villager1</key>
+				<dict>
+					<key>Front</key>
+					<string></string>
+					<key>Back</key>
+					<string></string>
+					<key>Left</key>
+					<string></string>
+					<key>Right</key>
+					<string></string>
+					<key>BaseImage</key>
+					<string>VillagerBase</string>
+					<key>InitialSpeech</key>
+					<array>
+						<string>Howdy stranger. Did you hear about the disturbance at the cave last night</string>
+						<string>My brother heard something odd at the cave last night</string>
+					</array>
+					<key>ReminderSpeech</key>
+					<array>
+						<string>Did you ever get around to checking on that cave?</string>
+						<string>Tick, tock. How about that cave?</string>
+					</array>
+					<key>Range</key>
+					<string>VillagerRange</string>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

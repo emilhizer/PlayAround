@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0F12C08D1FC77E9D001374BF /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F12C08C1FC77E9D001374BF /* Castle.swift */; };
+		0F2308D91FC8B5730010FCEE /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2308D81FC8B5730010FCEE /* Helpers.swift */; };
+		0F2308DB1FC900E70010FCEE /* AttackArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2308DA1FC900E70010FCEE /* AttackArea.swift */; };
+		0F2308DD1FC905870010FCEE /* AttackingFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F2308DC1FC905870010FCEE /* AttackingFrames.atlas */; };
+		0F2308E61FC9092F0010FCEE /* BackAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F2308E21FC9092E0010FCEE /* BackAttack.atlas */; };
+		0F2308E71FC9092F0010FCEE /* LeftAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F2308E31FC9092E0010FCEE /* LeftAttack.atlas */; };
+		0F2308E81FC9092F0010FCEE /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F2308E41FC9092F0010FCEE /* FrontAttackFrames.atlas */; };
+		0F2308E91FC9092F0010FCEE /* RightAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F2308E51FC9092F0010FCEE /* RightAttack.atlas */; };
+		0F2308EB1FC910D60010FCEE /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F2308EA1FC910D60010FCEE /* GameData.plist */; };
+		0F2308ED1FCB0FC30010FCEE /* NPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2308EC1FCB0FC30010FCEE /* NPC.swift */; };
 		0FF18FCE1FC2332E00FFB194 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */; };
 		0FF18FD01FC2332E00FFB194 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF18FCF1FC2332E00FFB194 /* GameScene.sks */; };
 		0FF18FD21FC2332E00FFB194 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF18FD11FC2332E00FFB194 /* Actions.sks */; };
@@ -20,6 +29,15 @@
 
 /* Begin PBXFileReference section */
 		0F12C08C1FC77E9D001374BF /* Castle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
+		0F2308D81FC8B5730010FCEE /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		0F2308DA1FC900E70010FCEE /* AttackArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttackArea.swift; sourceTree = "<group>"; };
+		0F2308DC1FC905870010FCEE /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
+		0F2308E21FC9092E0010FCEE /* BackAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BackAttack.atlas; sourceTree = "<group>"; };
+		0F2308E31FC9092E0010FCEE /* LeftAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = LeftAttack.atlas; sourceTree = "<group>"; };
+		0F2308E41FC9092F0010FCEE /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
+		0F2308E51FC9092F0010FCEE /* RightAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = RightAttack.atlas; sourceTree = "<group>"; };
+		0F2308EA1FC910D60010FCEE /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
+		0F2308EC1FCB0FC30010FCEE /* NPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPC.swift; sourceTree = "<group>"; };
 		0FF18FCA1FC2332E00FFB194 /* PlayAround.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayAround.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FF18FCF1FC2332E00FFB194 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -62,14 +80,23 @@
 		0FF18FCC1FC2332E00FFB194 /* PlayAround */ = {
 			isa = PBXGroup;
 			children = (
-				0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */,
-				0FF18FCF1FC2332E00FFB194 /* GameScene.sks */,
-				0FF18FD11FC2332E00FFB194 /* Actions.sks */,
+				0FF18FD51FC2332E00FFB194 /* GameViewController.swift */,
 				0FF18FD31FC2332E00FFB194 /* GameScene.swift */,
 				0F12C08C1FC77E9D001374BF /* Castle.swift */,
-				0FF18FD51FC2332E00FFB194 /* GameViewController.swift */,
-				0FF18FD71FC2332E00FFB194 /* Main.storyboard */,
+				0F2308DA1FC900E70010FCEE /* AttackArea.swift */,
+				0F2308EC1FCB0FC30010FCEE /* NPC.swift */,
+				0FF18FCF1FC2332E00FFB194 /* GameScene.sks */,
+				0FF18FD11FC2332E00FFB194 /* Actions.sks */,
+				0F2308EA1FC910D60010FCEE /* GameData.plist */,
+				0F2308D81FC8B5730010FCEE /* Helpers.swift */,
 				0FF18FDA1FC2332E00FFB194 /* Assets.xcassets */,
+				0F2308DC1FC905870010FCEE /* AttackingFrames.atlas */,
+				0F2308E41FC9092F0010FCEE /* FrontAttackFrames.atlas */,
+				0F2308E21FC9092E0010FCEE /* BackAttack.atlas */,
+				0F2308E31FC9092E0010FCEE /* LeftAttack.atlas */,
+				0F2308E51FC9092F0010FCEE /* RightAttack.atlas */,
+				0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */,
+				0FF18FD71FC2332E00FFB194 /* Main.storyboard */,
 				0FF18FDC1FC2332E00FFB194 /* LaunchScreen.storyboard */,
 				0FF18FDF1FC2332E00FFB194 /* Info.plist */,
 			);
@@ -135,10 +162,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F2308DD1FC905870010FCEE /* AttackingFrames.atlas in Resources */,
 				0FF18FD91FC2332E00FFB194 /* Main.storyboard in Resources */,
 				0FF18FD01FC2332E00FFB194 /* GameScene.sks in Resources */,
 				0FF18FDB1FC2332E00FFB194 /* Assets.xcassets in Resources */,
 				0FF18FDE1FC2332E00FFB194 /* LaunchScreen.storyboard in Resources */,
+				0F2308E61FC9092F0010FCEE /* BackAttack.atlas in Resources */,
+				0F2308E91FC9092F0010FCEE /* RightAttack.atlas in Resources */,
+				0F2308E71FC9092F0010FCEE /* LeftAttack.atlas in Resources */,
+				0F2308E81FC9092F0010FCEE /* FrontAttackFrames.atlas in Resources */,
+				0F2308EB1FC910D60010FCEE /* GameData.plist in Resources */,
 				0FF18FD21FC2332E00FFB194 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,9 +183,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F2308DB1FC900E70010FCEE /* AttackArea.swift in Sources */,
+				0F2308ED1FCB0FC30010FCEE /* NPC.swift in Sources */,
 				0FF18FD41FC2332E00FFB194 /* GameScene.swift in Sources */,
 				0FF18FD61FC2332E00FFB194 /* GameViewController.swift in Sources */,
 				0FF18FCE1FC2332E00FFB194 /* AppDelegate.swift in Sources */,
+				0F2308D91FC8B5730010FCEE /* Helpers.swift in Sources */,
 				0F12C08D1FC77E9D001374BF /* Castle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

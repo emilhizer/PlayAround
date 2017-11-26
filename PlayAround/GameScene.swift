@@ -14,10 +14,10 @@ import GameplayKit
 enum BodyType {
   
   static var Player     = UInt32(0x0001)
-  static var Building   = UInt32(0x0002)
-  static var Something  = UInt32(0x0004)
+  static var AttackArea = UInt32(0x0002)
+  static var Building   = UInt32(0x0004)
   static var Castle     = UInt32(0x0008)
-  
+
 }
 
 class GameScene: SKScene {
@@ -34,43 +34,39 @@ class GameScene: SKScene {
   let rotateRec = UIRotationGestureRecognizer()
   let tapRec = UITapGestureRecognizer()
   
+  var currentLevel = "Grassland" // will make this part of init later
+  
 
   // MARK: - Init and Load
   override func didMove(to view: SKView) {
     
-//    anchorPoint = CGPoint(x: 0.5, y: 0.0)
-    
-    physicsWorld.gravity = CGVector(dx: 1, // add a little right-to-left wind
+    physicsWorld.gravity = CGVector(dx: 0, // 1, // add a little wind
                                     dy: 0)
     
     physicsWorld.contactDelegate = self
     
-    swipeRightRec.addTarget(self, action: #selector(swipedRight))
-    swipeRightRec.direction = .right
-    view.addGestureRecognizer(swipeRightRec)
+    setupGestures()
+    
+    setupPlayer()
+    
+    setupGameObjects()
+    
+    setupGameData()
 
-    swipeLeftRec.addTarget(self, action: #selector(swipedLeft))
-    swipeLeftRec.direction = .left
-    view.addGestureRecognizer(swipeLeftRec)
     
-    swipeUpRec.addTarget(self, action: #selector(swipedUp))
-    swipeUpRec.direction = .up
-    view.addGestureRecognizer(swipeUpRec)
     
-    swipeDownRec.addTarget(self, action: #selector(swipedDown))
-    swipeDownRec.direction = .down
-    view.addGestureRecognizer(swipeDownRec)
+//    checkPhysics()
     
-    rotateRec.addTarget(self, action: #selector(rotatedView(_:)))
-    view.addGestureRecognizer(rotateRec)
     
-    tapRec.addTarget(self, action: #selector(tappedView))
-    tapRec.numberOfTouchesRequired = 2
-    tapRec.numberOfTapsRequired = 3
-    view.addGestureRecognizer(tapRec)
-
+  } // didMove:to
+  
+  
+  // MARK: - Functions
+  
+  func setupPlayer() {
     // Get the Player
     if let findPlayer = childNode(withName: "Player") as? SKSpriteNode {
+      print("Found Player")
       thePlayer = findPlayer
       
       // at least one physics body must by dynamic to detect collisions and contact
@@ -79,16 +75,16 @@ class GameScene: SKScene {
       
       thePlayer.physicsBody!.categoryBitMask = BodyType.Player
       thePlayer.physicsBody!.collisionBitMask =
-        BodyType.Castle |
-        BodyType.Something
+        BodyType.Castle
       // If collision bitmask is set, then contact may be redundant
       // See the ContactDelegate tests
       thePlayer.physicsBody!.contactTestBitMask =
         BodyType.Building |
-        BodyType.Castle |
-        BodyType.Something
+        BodyType.Castle
     } // thePlayer
-    
+  } // setupPlayer
+  
+  func setupGameObjects() {
     // Buildings
     for node in children {
       if node.name == "Building" {
@@ -101,107 +97,144 @@ class GameScene: SKScene {
         castle.dudesInCastle = 5
       }
     }
+  } // setupGameObjects
+  
+  func setupGestures() {
+    swipeRightRec.addTarget(self, action: #selector(swipedRight))
+    swipeRightRec.direction = .right
+    view?.addGestureRecognizer(swipeRightRec)
+    
+    swipeLeftRec.addTarget(self, action: #selector(swipedLeft))
+    swipeLeftRec.direction = .left
+    view?.addGestureRecognizer(swipeLeftRec)
+    
+    swipeUpRec.addTarget(self, action: #selector(swipedUp))
+    swipeUpRec.direction = .up
+    view?.addGestureRecognizer(swipeUpRec)
+    
+    swipeDownRec.addTarget(self, action: #selector(swipedDown))
+    swipeDownRec.direction = .down
+    view?.addGestureRecognizer(swipeDownRec)
+    
+    rotateRec.addTarget(self, action: #selector(rotatedView(_:)))
+    view?.addGestureRecognizer(rotateRec)
+    
+    tapRec.addTarget(self, action: #selector(tappedView))
+    tapRec.numberOfTouchesRequired = 1
+    tapRec.numberOfTapsRequired = 1
+    view?.addGestureRecognizer(tapRec)
+  } // setupGestures
+  
+  func setupGameData() {
+//    let path = Bundle.main.path(forResource: "GameData",
+//                                ofType: "plist")
     /*
-    for possibleBuilding in children {
-      if (possibleBuilding.name == "Building1") {
-        building1 = possibleBuilding as! SKSpriteNode
-        building1.physicsBody?.isDynamic = false
-        building1.physicsBody?.categoryBitMask = BodyType.Building
-        building1.physicsBody?.contactTestBitMask = BodyType.Player
-        building1.physicsBody?.collisionBitMask = BodyType.Player
-        print("Found Building1")
+    var result = [String: Any]()
+    if let fileURL = Bundle.main.url(forResource: "GameData",
+                                  withExtension: "plist"),
+      let data = try? Data(contentsOf: fileURL) {
+      if let dataResult = try?
+        PropertyListSerialization.propertyList(from: data,
+                                               options: [],
+                                               format: nil) as? [String: Any] {
+        if dataResult != nil {
+          result = dataResult!
+        } else {
+          fatalError("No Game Data found")
+        }
+      } else {
+        fatalError("Game Data file cuold not be read")
       }
-      if (possibleBuilding.name == "Building2") {
-        building2 = possibleBuilding as! SKSpriteNode
-        building2.physicsBody?.isDynamic = true
-        building2.physicsBody?.allowsRotation = true
-        building2.physicsBody?.categoryBitMask = BodyType.Building
-        building2.physicsBody?.contactTestBitMask = BodyType.Player
-        building2.physicsBody?.collisionBitMask = BodyType.Player
-        print("Found Building1")
-      }
-    } // Buildings
-    
-    checkPhysics()
-    
-    if building1.physicsBody!.categoryBitMask & thePlayer.physicsBody!.contactTestBitMask == 0 {
-      print("Player has no contact with Building 1")
+    } else {
+      fatalError("Game Data file could not be found")
     }
+    
+    print("Game Data:")
+    print(result)
     */
     
-  } // didMove:to
-  
-  // MARK: - Gesture Recognizer
-  
-  // Tapped
-  @objc func tappedView() {
-    print("Tapped with two fingers, three taps")
-  }
-  
-  // Rotated
-  @objc func rotatedView(_ sender: UIRotationGestureRecognizer) {
-    switch sender.state {
-    case .began:
-      print("rotation began")
-    case .changed:
-      print("rotation changed")
-//      print(sender.rotation)
-      
-      let rotateAmount = Measurement(value: Double(sender.rotation),
-                                     unit: UnitAngle.radians).converted(to: .degrees).value
-      print(rotateAmount)
-      
-      thePlayer.zRotation = -sender.rotation
-      
-    case .ended:
-      print("rotation ended")
-    default:
-      print("rotation unknown")
+    guard let result = getPList(fromFile: "GameData.plist") else {
+      fatalError("ERROR: Could not load Game Data plist file")
     }
-  }
+    print("Game Data:")
+    print(result)
+    
+    // Parse property list dictionary
+    if let levelDict = result["Levels"] as? [String: Any] {
+      for (key, value) in levelDict {
+        print("Key: \(key)")
+        if key == currentLevel {
+          print("--- Loading Curremt Level ---")
+          if let levelData = value as? [String: Any] {
+            for (key, value) in levelData {
+              print("Key: \(key)")
+              if key == "NPC" {
+                createNPC(withDict: value as! [String: Any])
+              }
+            }
+          }
+        }
+      }
+      
+    } // parse plist
+    
+  } // setupGameData
   
-  // Swiped Right
-  @objc func swipedRight() {
-    print("Swiped Right")
-    move(withXAmount: 100,
-         andYAmount: 0,
-         andSpriteAnimation: "WalkRight")
-  } // swipedRight
-
-  // Swiped Left
-  @objc func swipedLeft() {
-    print("Swiped Left")
-    move(withXAmount: -100,
-         andYAmount: 0,
-         andSpriteAnimation: "WalkLeft")
-  } // swipedLeft
-
-  // Swiped Up
-  @objc func swipedUp() {
-    print("Swiped Up")
-    move(withXAmount: 0,
-         andYAmount: 100,
-         andSpriteAnimation: "WalkBack")
-  } // swipedUp
-
-  // Swiped Down
-  @objc func swipedDown() {
-    print("Swiped Down")
-    move(withXAmount: 0,
-         andYAmount: -100,
-         andSpriteAnimation: "WalkFront")
-  } // swipedDown
-  
-  // Required when changing scenes
-  // If different scenes have different gesture recognizers
-  // Call before presenting a new scene
-  func cleanUp() {
-    for gesture in (view?.gestureRecognizers)! {
-      view?.removeGestureRecognizer(gesture)
+  func createNPC(withDict dict: [String: Any]) {
+    
+    for (key, value) in dict {
+      
+      var baseImage = ""
+      var range = ""
+      let nickname = key
+      
+      guard let NPCData = value as? [String: Any] else {
+        print("NPC Data not a dictionary")
+        return
+      }
+      
+      for (key, value) in NPCData {
+        if key == "BaseImage" {
+          baseImage = value as! String
+        }
+        else if key == "Range" {
+          range = value as! String
+        }
+      }
+      
+      let newNPC = NPC(imageNamed: baseImage)
+      newNPC.name = nickname
+      newNPC.setup(withDict: value as! [String: Any])
+      newNPC.zPosition = thePlayer.zPosition - 1
+      newNPC.position = putSpriteWithinRange(nodeName: range)
+      
+      addChild(newNPC)
+      
+      
     }
-  } // cleanUp
+  } // createNPC
   
-  // MARK: - Functions
+  func putSpriteWithinRange(nodeName: String) -> CGPoint {
+    
+    var point = CGPoint.zero
+    
+    for node in children {
+      if node.name == nodeName {
+        if let rangeNode = node as? SKSpriteNode {
+          let nodeWidth = rangeNode.size.width
+          let nodeHeight = rangeNode.size.height
+          let randomX = arc4random_uniform(UInt32(nodeWidth))
+          let randomY = arc4random_uniform(UInt32(nodeHeight))
+          let posStartX = rangeNode.position.x - (rangeNode.size.width / 2)
+          let posStartY = rangeNode.position.y - (rangeNode.size.height / 2)
+          point = CGPoint(x: posStartX + CGFloat(randomX),
+                          y: posStartY + CGFloat(randomY))
+        }
+        break // found it
+      }
+    }
+    return point
+  } // putSpriteWithinRange
   
   // Move player down
   func move(withXAmount xAmount: CGFloat, andYAmount yAmount: CGFloat, andSpriteAnimation spriteAction: String) {
@@ -246,6 +279,17 @@ class GameScene: SKScene {
     }
   }
   
+  // Player attack
+  func attack() {
+    let newAttack = AttackArea(imageNamed:"AttackCircle")
+    newAttack.position = thePlayer.position
+    newAttack.setup()
+    newAttack.zPosition = thePlayer.zPosition - 1
+    addChild(newAttack)
+    
+    thePlayer.run(SKAction(named: "FrontAttack")!)
+  } // attack
+  
   
   // MARK: - Touches
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -253,6 +297,80 @@ class GameScene: SKScene {
 //      touchDown(atPoint: touch.location(in: self))
 //    }
   } // touchesBegan
+  
+  
+  // MARK: - Gesture Recognizers
+  
+  // Tapped
+  @objc func tappedView() {
+    print("Tapped")
+    
+    attack()
+  }
+  
+  // Rotated
+  @objc func rotatedView(_ sender: UIRotationGestureRecognizer) {
+    switch sender.state {
+    case .began:
+      print("rotation began")
+    case .changed:
+      print("rotation changed")
+      //      print(sender.rotation)
+      
+      let rotateAmount = Measurement(value: Double(sender.rotation),
+                                     unit: UnitAngle.radians).converted(to: .degrees).value
+      print(rotateAmount)
+      
+      thePlayer.zRotation = -sender.rotation
+      
+    case .ended:
+      print("rotation ended")
+    default:
+      print("rotation unknown")
+    }
+  }
+  
+  // Swiped Right
+  @objc func swipedRight() {
+    print("Swiped Right")
+    move(withXAmount: 100,
+         andYAmount: 0,
+         andSpriteAnimation: "WalkRight")
+  } // swipedRight
+  
+  // Swiped Left
+  @objc func swipedLeft() {
+    print("Swiped Left")
+    move(withXAmount: -100,
+         andYAmount: 0,
+         andSpriteAnimation: "WalkLeft")
+  } // swipedLeft
+  
+  // Swiped Up
+  @objc func swipedUp() {
+    print("Swiped Up")
+    move(withXAmount: 0,
+         andYAmount: 100,
+         andSpriteAnimation: "WalkBack")
+  } // swipedUp
+  
+  // Swiped Down
+  @objc func swipedDown() {
+    print("Swiped Down")
+    move(withXAmount: 0,
+         andYAmount: -100,
+         andSpriteAnimation: "WalkFront")
+  } // swipedDown
+  
+  // Required when changing scenes
+  // If different scenes have different gesture recognizers
+  // Call before presenting a new scene
+  func cleanUp() {
+    for gesture in (view?.gestureRecognizers)! {
+      view?.removeGestureRecognizer(gesture)
+    }
+  } // cleanUp
+
   
   
   
@@ -273,53 +391,13 @@ class GameScene: SKScene {
   
   } // update
   
-  //MARK: - Analyse the collision/contact set up.
-  func checkPhysics() {
-    
-    // Create an array of all the nodes with physicsBodies
-    var physicsNodes = [SKNode]()
-    
-    //Get all physics bodies
-    for node in children {
-      if let _ = node.physicsBody {
-        physicsNodes.append(node)
-      } else {
-        let nodeName = node.name ?? "No Name"
-        print("\(nodeName) does not have a physics body so cannot collide or be involved in contacts.")
-      }
-    }
-    
-    //For each node, check it's category against every other node's collion and contctTest bit mask
-    for node in physicsNodes {
-      let category = node.physicsBody!.categoryBitMask
-      // Identify the node by its category if the name is blank
-      let nodeName = node.name ?? "Category \(category)"
-      let collisionMask = node.physicsBody!.collisionBitMask
-      let contactMask = node.physicsBody!.contactTestBitMask
-      
-      // If all bits of the collisonmask set, just say it collides with everything.
-      if collisionMask == UInt32.max {
-        print("\(nodeName) collides with everything")
-      }
-      
-      for otherNode in physicsNodes {
-        if (node != otherNode) && (node.physicsBody?.isDynamic == true) {
-          let otherCategory = otherNode.physicsBody!.categoryBitMask
-          // Identify the node by its category if the name is blank
-          let otherName = otherNode.name ?? "Category \(otherCategory)"
-          
-          // If the collisonmask and category match, they will collide
-          if ((collisionMask & otherCategory) != 0) && (collisionMask != UInt32.max) {
-            print("\(nodeName) collides with \(otherName)")
-          }
-          // If the contactMAsk and category match, they will contact
-          if (contactMask & otherCategory) != 0 {print("\(nodeName) notifies when contacting \(otherName)")}
-        }
-      }
-    }
-  } // checkPhysics
+  
+  
+  
   
 } // GameScene
+
+
 
 
 // MARK: - EXTENSIONS
@@ -327,17 +405,22 @@ extension GameScene: SKPhysicsContactDelegate {
   
   func didBegin(_ contact: SKPhysicsContact) {
     print("Contact Made")
-    var playerNode = contact.bodyA.node
-    var otherNode = contact.bodyB.node
-    if (contact.bodyA.categoryBitMask != BodyType.Player) {
-      playerNode = contact.bodyB.node
-      otherNode = contact.bodyA.node
+    var node1 = contact.bodyA.node
+    var node2 = contact.bodyB.node
+    if (contact.bodyA.categoryBitMask > contact.bodyB.categoryBitMask) {
+      node1 = contact.bodyB.node
+      node2 = contact.bodyA.node
     }
-    if (otherNode?.name == "Building") {
+    if (node2?.name == "Building") {
       print("Touched Building")
     }
-    if (otherNode?.name == "Castle") {
+    if (node2?.name == "Castle") {
       print("Touched Castle")
+    }
+    print(node1?.name ?? "No Node1 Name Found")
+    
+    if (node1?.name == "AttackArea") && (node2?.name == "Castle") {
+      node2?.removeFromParent()
     }
     
   } // didBegin:contact
