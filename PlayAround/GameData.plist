@@ -68,6 +68,70 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>Dungeon</key>
+		<dict>
+			<key>NPC</key>
+			<dict>
+				<key>Villager1</key>
+				<dict>
+					<key>Front</key>
+					<string>VillagerFront</string>
+					<key>Back</key>
+					<string>VillagerBack</string>
+					<key>Left</key>
+					<string>VillagerLeft</string>
+					<key>Right</key>
+					<string>VillagerRight</string>
+					<key>BaseImage</key>
+					<string>VillagerBase</string>
+					<key>InitialSpeech</key>
+					<array>
+						<string>Did you hear about the disturbance at the cave last night</string>
+						<string>My brother heard something odd at the cave last night</string>
+					</array>
+					<key>ReminderSpeech</key>
+					<array>
+						<string>Did you ever get around to checking on that cave?</string>
+						<string>Tick, tock. How about that cave?</string>
+					</array>
+					<key>Range</key>
+					<string>VillagerRange1</string>
+					<key>Icon</key>
+					<string>VillagerIcon</string>
+					<key>Collidable</key>
+					<true/>
+				</dict>
+				<key>Villager2</key>
+				<dict>
+					<key>Front</key>
+					<string>VillagerFront</string>
+					<key>Back</key>
+					<string>VillagerBack</string>
+					<key>Left</key>
+					<string>VillagerLeft</string>
+					<key>Right</key>
+					<string>VillagerRight</string>
+					<key>BaseImage</key>
+					<string>VillagerBase</string>
+					<key>InitialSpeech</key>
+					<array>
+						<string>Did you hear about the disturbance at the cave last night</string>
+						<string>My brother heard something odd at the cave last night</string>
+					</array>
+					<key>ReminderSpeech</key>
+					<array>
+						<string>Did you ever get around to checking on that cave?</string>
+						<string>Tick, tock. How about that cave?</string>
+					</array>
+					<key>Range</key>
+					<string>VillagerRange2</string>
+					<key>Icon</key>
+					<string>VillagerIcon</string>
+					<key>Collidable</key>
+					<false/>
+				</dict>
+			</dict>
+		</dict>
 	</dict>
 </dict>
 </plist>
