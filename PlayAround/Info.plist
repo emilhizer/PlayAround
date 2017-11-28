@@ -43,5 +43,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BackIssuesBB_reg.ttf</string>
+	</array>
 </dict>
 </plist>

@@ -17,6 +17,7 @@ enum BodyType {
   static var AttackArea = UInt32(0x0002)
   static var Building   = UInt32(0x0004)
   static var Castle     = UInt32(0x0008)
+  static var NPC        = UInt32(0x0010)
 
 }
 
@@ -36,6 +37,11 @@ class GameScene: SKScene {
   
   var currentLevel = "Grassland" // will make this part of init later
   
+  var infoLabel1 = SKLabelNode()
+  var infoLabel2 = SKLabelNode()
+  
+  var speechIcon = SKSpriteNode()
+  
 
   // MARK: - Init and Load
   override func didMove(to view: SKView) {
@@ -46,6 +52,8 @@ class GameScene: SKScene {
     physicsWorld.contactDelegate = self
     
     setupGestures()
+    
+    setupCameraAndHUD()
     
     setupPlayer()
     
@@ -62,6 +70,27 @@ class GameScene: SKScene {
   
   
   // MARK: - Functions
+  
+  func setupCameraAndHUD() {
+    
+    if let cameraNode = childNode(withName: "Camera") as? SKCameraNode {
+      camera = cameraNode
+      
+      if let infoLabel = cameraNode.childNode(withName: "InfoLabel1") as? SKLabelNode {
+        infoLabel1 = infoLabel
+        infoLabel1.text = ""
+      }
+      if let infoLabel = cameraNode.childNode(withName: "InfoLabel2") as? SKLabelNode {
+        infoLabel2 = infoLabel
+        infoLabel2.text = ""
+      }
+      if let iconNode = cameraNode.childNode(withName: "SpeechIcon") as? SKSpriteNode {
+        speechIcon = iconNode
+        speechIcon.isHidden = true
+      }
+    }
+    
+  } // setupCamera
   
   func setupPlayer() {
     // Get the Player
@@ -205,6 +234,7 @@ class GameScene: SKScene {
       let newNPC = NPC(imageNamed: baseImage)
       newNPC.name = nickname
       newNPC.setup(withDict: value as! [String: Any])
+      newNPC.baseFrame = baseImage
       newNPC.zPosition = thePlayer.zPosition - 1
       newNPC.position = putSpriteWithinRange(nodeName: range)
       
@@ -289,6 +319,32 @@ class GameScene: SKScene {
     
     thePlayer.run(SKAction(named: "FrontAttack")!)
   } // attack
+  
+  // Split speech text if necessary
+  func splitSpeech(withText text: String) -> (String, String) {
+    let maxOnLine = 20
+    var i = 0
+    
+    var line1 = ""
+    var line2 = ""
+    
+    var useLine2 = false
+    
+    for letter in text {
+      if (i > maxOnLine) && (letter == " ") {
+        useLine2 = true
+      }
+      if useLine2 {
+        line2 = line2 + String(letter)
+      } else {
+        line1 = line1 + String(letter)
+      }
+      i += 1
+    } // cycle through text
+    
+    return (line1, line2)
+    
+  } // splitSpeech
   
   
   // MARK: - Touches
@@ -388,6 +444,7 @@ class GameScene: SKScene {
       }
     }
   
+    camera?.position = thePlayer.position
   
   } // update
   
@@ -405,26 +462,87 @@ extension GameScene: SKPhysicsContactDelegate {
   
   func didBegin(_ contact: SKPhysicsContact) {
     print("Contact Made")
+    
+    // Reorder/force Player (and attack) to be the first node
     var node1 = contact.bodyA.node
     var node2 = contact.bodyB.node
     if (contact.bodyA.categoryBitMask > contact.bodyB.categoryBitMask) {
       node1 = contact.bodyB.node
       node2 = contact.bodyA.node
     }
-    if (node2?.name == "Building") {
+
+    if (node1?.name == "Player") && (node2?.name == "Building") {
       print("Touched Building")
     }
-    if (node2?.name == "Castle") {
+    if (node1?.name == "Player") && (node2?.name == "Castle") {
       print("Touched Castle")
     }
     print(node1?.name ?? "No Node1 Name Found")
     
     if (node1?.name == "AttackArea") && (node2?.name == "Castle") {
+      print("Attacked Castle")
       node2?.removeFromParent()
     }
     
+    // NPC Contact
+    if (node1?.name == "Player") && (node2?.name == "Villager1") {
+      print("Touched Villager1")
+      if let npc = node2 as? NPC {
+        let (line1, line2) = splitSpeech(withText: npc.speak())
+        infoLabel1.text = line1
+        infoLabel2.text = line2
+        speechIcon.isHidden = false
+        speechIcon.texture = SKTexture(imageNamed: npc.speechIcon)
+        npc.contactPlayer()
+      }
+    }
+    else if (node1?.name == "Player") && (node2?.name == "Villager2") {
+      print("Touched Villager1")
+      if let npc = node2 as? NPC {
+        let (line1, line2) = splitSpeech(withText: npc.speak())
+        infoLabel1.text = line1
+        infoLabel2.text = line2
+        speechIcon.isHidden = false
+        speechIcon.texture = SKTexture(imageNamed: npc.speechIcon)
+        npc.contactPlayer()
+      }
+    }
+
+    
   } // didBegin:contact
   
+  
+  func didEnd(_ contact: SKPhysicsContact) {
+    print("Contact Ended")
+    
+    var node1 = contact.bodyA.node
+    var node2 = contact.bodyB.node
+    if (contact.bodyA.categoryBitMask > contact.bodyB.categoryBitMask) {
+      node1 = contact.bodyB.node
+      node2 = contact.bodyA.node
+    }
+    
+    if (node1?.name == "Player") && (node2?.name == "Villager1") {
+      print("Finished Touching Villager1")
+      if let npc = node2 as? NPC {
+        infoLabel1.text = ""
+        infoLabel2.text = ""
+        speechIcon.isHidden = true
+        npc.endContactPlayer()
+      }
+    }
+    if (node1?.name == "Player") && (node2?.name == "Villager2") {
+      print("Finished Touching Villager2")
+      if let npc = node2 as? NPC {
+        infoLabel1.text = ""
+        infoLabel2.text = ""
+        speechIcon.isHidden = true
+        npc.endContactPlayer()
+      }
+    }
+
+
+  } // dedEnd:contact
   
   
 } // SKPhysicsContactDelegate
