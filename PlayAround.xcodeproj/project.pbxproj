@@ -38,6 +38,8 @@
 		0FF59BB01FCD19200066F9EB /* Dungeon.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF59BAF1FCD19200066F9EB /* Dungeon.sks */; };
 		0FF59BB31FCD1D560066F9EB /* Dungeon_Pad.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF59BB21FCD1D560066F9EB /* Dungeon_Pad.sks */; };
 		0FF59BB51FCD1D780066F9EB /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF59BB41FCD1D780066F9EB /* Helpers.swift */; };
+		0FF59BB81FCD21B70066F9EB /* LevelTiles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FF59BB71FCD21B70066F9EB /* LevelTiles.xcassets */; };
+		0FF59BBE1FCD2CB30066F9EB /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0FF59BBD1FCD2CB30066F9EB /* LevelTiles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,8 @@
 		0FF59BAF1FCD19200066F9EB /* Dungeon.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Dungeon.sks; sourceTree = "<group>"; };
 		0FF59BB21FCD1D560066F9EB /* Dungeon_Pad.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Dungeon_Pad.sks; sourceTree = "<group>"; };
 		0FF59BB41FCD1D780066F9EB /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		0FF59BB71FCD21B70066F9EB /* LevelTiles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = LevelTiles.xcassets; sourceTree = "<group>"; };
+		0FF59BBD1FCD2CB30066F9EB /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +133,7 @@
 				0FF18FD11FC2332E00FFB194 /* Actions.sks */,
 				0FF59BB11FCD1B570066F9EB /* Levels */,
 				0FF18FDA1FC2332E00FFB194 /* Assets.xcassets */,
-				0F9FDD471FCBC3C600C2D3B7 /* Fonts */,
+				0FF59BB71FCD21B70066F9EB /* LevelTiles.xcassets */,
 				0F2308DC1FC905870010FCEE /* AttackingFrames.atlas */,
 				0F2308E41FC9092F0010FCEE /* FrontAttackFrames.atlas */,
 				0F2308E21FC9092E0010FCEE /* BackAttack.atlas */,
@@ -139,10 +143,8 @@
 				0F2308F01FCB1A1D0010FCEE /* VillagerFrontWalking.atlas */,
 				0F2308F11FCB1A1D0010FCEE /* VillagerLeftWalking.atlas */,
 				0F2308EF1FCB1A1C0010FCEE /* VillagerRightWalking.atlas */,
-				0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */,
-				0FF18FD71FC2332E00FFB194 /* Main.storyboard */,
-				0FF18FDC1FC2332E00FFB194 /* LaunchScreen.storyboard */,
-				0FF18FDF1FC2332E00FFB194 /* Info.plist */,
+				0F9FDD471FCBC3C600C2D3B7 /* Fonts */,
+				0FF59BB61FCD217F0066F9EB /* Supporting Files */,
 			);
 			path = PlayAround;
 			sourceTree = "<group>";
@@ -154,8 +156,20 @@
 				0FF59BA31FCD105A0066F9EB /* Grassland.sks */,
 				0FF59BAF1FCD19200066F9EB /* Dungeon.sks */,
 				0FF59BB21FCD1D560066F9EB /* Dungeon_Pad.sks */,
+				0FF59BBD1FCD2CB30066F9EB /* LevelTiles.sks */,
 			);
 			path = Levels;
+			sourceTree = "<group>";
+		};
+		0FF59BB61FCD217F0066F9EB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0FF18FCD1FC2332E00FFB194 /* AppDelegate.swift */,
+				0FF18FD71FC2332E00FFB194 /* Main.storyboard */,
+				0FF18FDC1FC2332E00FFB194 /* LaunchScreen.storyboard */,
+				0FF18FDF1FC2332E00FFB194 /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,8 +231,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FF59BB81FCD21B70066F9EB /* LevelTiles.xcassets in Resources */,
 				0F2308F21FCB1A1E0010FCEE /* VillagerBackWalking.atlas in Resources */,
 				0F2308F31FCB1A1E0010FCEE /* VillagerRightWalking.atlas in Resources */,
+				0FF59BBE1FCD2CB30066F9EB /* LevelTiles.sks in Resources */,
 				0FF59BB01FCD19200066F9EB /* Dungeon.sks in Resources */,
 				0F2308F51FCB1A1E0010FCEE /* VillagerLeftWalking.atlas in Resources */,
 				0F2308DD1FC905870010FCEE /* AttackingFrames.atlas in Resources */,
@@ -396,7 +412,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7XMA2J8CD9;
-				INFOPLIST_FILE = PlayAround/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/PlayAround/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.milhizer.PlayAround;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -411,7 +427,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7XMA2J8CD9;
-				INFOPLIST_FILE = PlayAround/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/PlayAround/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.milhizer.PlayAround;
 				PRODUCT_NAME = "$(TARGET_NAME)";
