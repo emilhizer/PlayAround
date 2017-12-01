@@ -29,7 +29,7 @@ extension GameScene {
   
   // Split speech text if necessary
   func splitSpeech(withText text: String) -> (String, String) {
-    let maxOnLine = 20
+    let maxOnLine = 25
     var i = 0
     
     var line1 = ""
@@ -79,7 +79,12 @@ extension GameScene {
     
   } // loadLevel
   
-  
+  func remember(thisThing thing: String, toRemember: String) {
+    
+    defaults.set(true, forKey: currentLevel+thing+toRemember)
+    // Example key: "GrasslandVillager1alreadyContacted"
+    
+  } // remember
   
   
 } // GameScene+Helpers

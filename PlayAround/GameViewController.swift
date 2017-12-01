@@ -11,11 +11,17 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+  
+  let defaults = UserDefaults.standard
 
   override func viewDidLoad() {
     super.viewDidLoad()
   
-    let initialLevel = "Grassland"
+    var initialLevel = "Grassland"
+
+    if (defaults.object(forKey: "ContinuePoint") != nil) {
+      initialLevel = defaults.string(forKey: "ContinuePoint")!
+    }
     
     if let view = self.view as! SKView? {
       // Load the GameScene:SKScene from initialLevel(.sks)

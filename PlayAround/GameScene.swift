@@ -46,6 +46,12 @@ class GameScene: SKScene {
   
   var transitionInProgress = false
   
+  let defaults = UserDefaults.standard
+  
+  // +GameData Extension
+  var cameraFollowsPlayer = true
+  var cameraOffset = CGPoint.zero
+  var disableAttack = false
 
   // MARK: - Init and Load
   override func didMove(to view: SKView) {
@@ -77,7 +83,7 @@ class GameScene: SKScene {
   
   func setupCameraAndHUD() {
     
-    if let cameraNode = childNode(withName: "Camera") as? SKCameraNode {
+    if let cameraNode = childNode(withName: "//Camera") as? SKCameraNode {
       camera = cameraNode
       
       if let infoLabel = cameraNode.childNode(withName: "InfoLabel1") as? SKLabelNode {
@@ -114,8 +120,10 @@ class GameScene: SKScene {
       }
     }
   
-    camera?.position = thePlayer.position
-  
+    if cameraFollowsPlayer {
+      camera?.position = CGPoint(x: thePlayer.position.x + cameraOffset.x,
+                                 y: thePlayer.position.y + cameraOffset.y)
+    }
   } // update
   
   

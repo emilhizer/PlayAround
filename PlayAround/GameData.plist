@@ -6,6 +6,32 @@
 	<dict>
 		<key>Grassland</key>
 		<dict>
+			<key>Properties</key>
+			<dict>
+				<key>CameraFollowsPlayer</key>
+				<true/>
+				<key>CameraOffset</key>
+				<string>{0, 0}</string>
+				<key>ContinuePoint</key>
+				<true/>
+				<key>DisableAttack</key>
+				<true/>
+				<key>Clear</key>
+				<dict/>
+				<key>Rewards</key>
+				<dict>
+					<key>Health</key>
+					<string></string>
+					<key>Projectile / Weapon</key>
+					<string></string>
+					<key>Inventory</key>
+					<string></string>
+					<key>Currency</key>
+					<string></string>
+					<key>Class</key>
+					<string></string>
+				</dict>
+			</dict>
 			<key>NPC</key>
 			<dict>
 				<key>Villager1</key>
@@ -70,9 +96,35 @@
 		</dict>
 		<key>Dungeon</key>
 		<dict>
+			<key>Properties</key>
+			<dict>
+				<key>CameraFollowsPlayer</key>
+				<true/>
+				<key>CameraOffset</key>
+				<string>{0, 0}</string>
+				<key>ContinuePoint</key>
+				<true/>
+				<key>DisableAttack</key>
+				<false/>
+				<key>Clear</key>
+				<dict/>
+				<key>Rewards</key>
+				<dict>
+					<key>Health</key>
+					<string></string>
+					<key>Projectile / Weapon</key>
+					<string></string>
+					<key>Inventory</key>
+					<string></string>
+					<key>Currency</key>
+					<string></string>
+					<key>Class</key>
+					<string></string>
+				</dict>
+			</dict>
 			<key>NPC</key>
 			<dict>
-				<key>Villager1</key>
+				<key>DungeonVillager1</key>
 				<dict>
 					<key>Front</key>
 					<string>VillagerFront</string>
@@ -101,7 +153,7 @@
 					<key>Collidable</key>
 					<true/>
 				</dict>
-				<key>Villager2</key>
+				<key>DungeonVillager2</key>
 				<dict>
 					<key>Front</key>
 					<string>VillagerFront</string>

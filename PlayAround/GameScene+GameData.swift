@@ -33,6 +33,9 @@ extension GameScene {
               if key == "NPC" {
                 createNPC(withDict: value as! [String: Any])
               } // NPC data
+              else if key == "Properties" {
+                parseLevelSpecificProperties(withDict: value as! [String: Any])
+              } // Properties
             } // for each element in level data
           } // level data
         } // current level
@@ -42,6 +45,7 @@ extension GameScene {
     
   } // setupGameData
   
+  // Create the NPC
   func createNPC(withDict dict: [String: Any]) {
     
     for (key, value) in dict {
@@ -71,11 +75,36 @@ extension GameScene {
       newNPC.zPosition = thePlayer.zPosition - 1
       newNPC.position = putSpriteWithinRange(nodeName: range)
       
+      newNPC.alreadyContacted =
+        defaults.bool(forKey: currentLevel+nickname+"alreadyContacted")
+      
       addChild(newNPC)
       
     } // for each NPC entry
     
   } // createNPC
+  
+  // Parse the Level Properties
+  func parseLevelSpecificProperties(withDict dict: [String: Any]) {
+    
+    for (key, value) in dict {
+      if let value = value as? Bool, key == "CameraFollowsPlayer" {
+        cameraFollowsPlayer = value
+      } else if let value = value as? String, key == "CameraOffset" {
+        cameraOffset = CGPointFromString(value)
+        print("Camera Offset: \(value) -- \(cameraOffset)")
+      } else if let value = value as? Bool, key == "ContinuePoint" {
+        if value {
+          defaults.set(currentLevel, forKey: "ContinuePoint")
+        }
+      } else if let value = value as? Bool, key == "DisableAttack" {
+        disableAttack = value
+      }
+
+    } // loop through Level Property fields
+    
+  } // parseLevelSpecificProperties
+
   
   // Put sprite at random position with a named node (range)
   func putSpriteWithinRange(nodeName: String) -> CGPoint {

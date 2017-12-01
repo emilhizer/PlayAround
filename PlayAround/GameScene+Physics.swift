@@ -41,28 +41,17 @@ extension GameScene: SKPhysicsContactDelegate {
     }
     
     // NPC Contact
-    if (node1?.name == "Player") && (node2?.name == "Villager1") {
-      print("Touched Villager1")
-      if let npc = node2 as? NPC {
-        let (line1, line2) = splitSpeech(withText: npc.speak())
-        infoLabel1.text = line1
-        infoLabel2.text = line2
-        speechIcon.isHidden = false
-        speechIcon.texture = SKTexture(imageNamed: npc.speechIcon)
-        npc.contactPlayer()
-      }
+    if let npc = node2 as? NPC, (node1?.name == "Player") {
+      print("Touched: \(npc.name!)")
+      let (line1, line2) = splitSpeech(withText: npc.speak())
+      infoLabel1.text = line1
+      infoLabel2.text = line2
+      speechIcon.isHidden = false
+      speechIcon.texture = SKTexture(imageNamed: npc.speechIcon)
+      npc.contactPlayer()
+      remember(thisThing: npc.name!, toRemember: "alreadyContacted")
     }
-    else if (node1?.name == "Player") && (node2?.name == "Villager2") {
-      print("Touched Villager1")
-      if let npc = node2 as? NPC {
-        let (line1, line2) = splitSpeech(withText: npc.speak())
-        infoLabel1.text = line1
-        infoLabel2.text = line2
-        speechIcon.isHidden = false
-        speechIcon.texture = SKTexture(imageNamed: npc.speechIcon)
-        npc.contactPlayer()
-      }
-    }
+    
     
     
   } // didBegin:contact
@@ -78,23 +67,12 @@ extension GameScene: SKPhysicsContactDelegate {
       node2 = contact.bodyA.node
     }
     
-    if (node1?.name == "Player") && (node2?.name == "Villager1") {
-      print("Finished Touching Villager1")
-      if let npc = node2 as? NPC {
-        infoLabel1.text = ""
-        infoLabel2.text = ""
-        speechIcon.isHidden = true
-        npc.endContactPlayer()
-      }
-    }
-    if (node1?.name == "Player") && (node2?.name == "Villager2") {
-      print("Finished Touching Villager2")
-      if let npc = node2 as? NPC {
-        infoLabel1.text = ""
-        infoLabel2.text = ""
-        speechIcon.isHidden = true
-        npc.endContactPlayer()
-      }
+    if let npc = node2 as? NPC, (node1?.name == "Player") {
+      print("Finished Touching: \(npc.name!)")
+      infoLabel1.text = ""
+      infoLabel2.text = ""
+      speechIcon.isHidden = true
+      npc.endContactPlayer()
     }
     
     

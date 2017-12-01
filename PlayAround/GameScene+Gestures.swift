@@ -42,8 +42,9 @@ extension GameScene {
   // Tapped
   @objc func tappedView() {
     print("Tapped")
-    
-    attack()
+    if !disableAttack {
+      attack()
+    }
   }
   
   // Rotated
