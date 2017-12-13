@@ -15,9 +15,8 @@ enum BodyType {
   
   static var Player     = UInt32(0x0001)
   static var AttackArea = UInt32(0x0002)
-  static var Building   = UInt32(0x0004)
-  static var Castle     = UInt32(0x0008)
-  static var NPC        = UInt32(0x0010)
+  static var NPC        = UInt32(0x0004)
+  static var Item       = UInt32(0x0008)
 
 }
 
@@ -30,6 +29,8 @@ class GameScene: SKScene {
   var building2 = SKSpriteNode()
   var moveSpeed = TimeInterval(1)
   
+  var hudNode = SKNode()
+  
   let swipeRightRec = UISwipeGestureRecognizer()
   let swipeLeftRec = UISwipeGestureRecognizer()
   let swipeUpRec = UISwipeGestureRecognizer()
@@ -39,12 +40,18 @@ class GameScene: SKScene {
   
   var currentLevel = "" // will make this part of init later
   
+  var playerReceivingInfo = false
   var infoLabel1 = SKLabelNode()
   var infoLabel2 = SKLabelNode()
   
   var speechIcon = SKSpriteNode()
   
+  var rewards = [String: Any]()
+  var clearItems = [String]()
+  
   var transitionInProgress = false
+  
+  var playerUsingPortal = false
   
   let defaults = UserDefaults.standard
   
@@ -53,8 +60,15 @@ class GameScene: SKScene {
   var cameraOffset = CGPoint.zero
   var disableAttack = false
 
+  // +Helper Extension
+  var entryNodeName = ""
+  
+
   // MARK: - Init and Load
   override func didMove(to view: SKView) {
+    
+    // Debug test
+    //    defaults.set(1, forKey: "CastleKey")
     
     physicsWorld.gravity = CGVector(dx: 0, // 1, // add a little wind
                                     dy: 0)
@@ -69,10 +83,13 @@ class GameScene: SKScene {
     
     setupGameObjects()
     
-    setupGameData()
-
+    setupGameData() // aka in tutorial as parsePropertyList()
     
+    clearTaggedItems(withArray: clearItems)
     
+    parseItemRewards(withDict: rewards)
+    
+    // Display all the physics contacts to console
 //    checkPhysics()
     
     
@@ -83,24 +100,33 @@ class GameScene: SKScene {
   
   func setupCameraAndHUD() {
     
-    if let cameraNode = childNode(withName: "//Camera") as? SKCameraNode {
-      camera = cameraNode
+    if let hudNode = childNode(withName: "//HUD") {
+      print(" -- Found HUD node")
+      self.hudNode = hudNode
+
+      if let cameraNode = childNode(withName: "//Camera") as? SKCameraNode {
+        print(" -- Found camera")
+        camera = cameraNode
+      }
       
-      if let infoLabel = cameraNode.childNode(withName: "InfoLabel1") as? SKLabelNode {
+      if let infoLabel = childNode(withName: "//InfoLabel1") as? SKLabelNode {
+        print(" -- Found label1")
         infoLabel1 = infoLabel
         infoLabel1.text = ""
       }
-      if let infoLabel = cameraNode.childNode(withName: "InfoLabel2") as? SKLabelNode {
+      if let infoLabel = childNode(withName: "//InfoLabel2") as? SKLabelNode {
+        print(" -- Found label2")
         infoLabel2 = infoLabel
         infoLabel2.text = ""
       }
-      if let iconNode = cameraNode.childNode(withName: "SpeechIcon") as? SKSpriteNode {
+      if let iconNode = childNode(withName: "//SpeechIcon") as? SKSpriteNode {
         speechIcon = iconNode
         speechIcon.isHidden = true
       }
-    }
+      
+    } // HUD node found
     
-  } // setupCamera
+  } // setupCameraAndHUD
   
   
   
@@ -111,9 +137,9 @@ class GameScene: SKScene {
   override func update(_ currentTime: TimeInterval) {
 
     for node in children {
-      if (node.name == "Building") {
+      if (node.name == "Building") || (node.name == "Chest") {
         if node.position.y > thePlayer.position.y {
-          node.zPosition = -100
+          node.zPosition = 1
         } else {
           node.zPosition = 100
         }
@@ -121,7 +147,7 @@ class GameScene: SKScene {
     }
   
     if cameraFollowsPlayer {
-      camera?.position = CGPoint(x: thePlayer.position.x + cameraOffset.x,
+      hudNode.position = CGPoint(x: thePlayer.position.x + cameraOffset.x,
                                  y: thePlayer.position.y + cameraOffset.y)
     }
   } // update

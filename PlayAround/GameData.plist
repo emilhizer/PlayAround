@@ -15,7 +15,7 @@
 				<key>ContinuePoint</key>
 				<true/>
 				<key>DisableAttack</key>
-				<true/>
+				<false/>
 				<key>Clear</key>
 				<dict/>
 				<key>Rewards</key>
@@ -58,9 +58,13 @@
 					</array>
 					<key>Range</key>
 					<string>VillagerRange1</string>
+					<key>SpeechTime</key>
+					<string>1</string>
 					<key>Icon</key>
 					<string>VillagerIcon</string>
-					<key>Collidable</key>
+					<key>ColliableWithPlayer</key>
+					<false/>
+					<key>ColliableWithItems</key>
 					<true/>
 				</dict>
 				<key>Villager2</key>
@@ -87,12 +91,232 @@
 					</array>
 					<key>Range</key>
 					<string>VillagerRange2</string>
+					<key>SpeechTime</key>
+					<string>1</string>
 					<key>Icon</key>
 					<string>VillagerIcon</string>
 					<key>Collidable</key>
 					<false/>
+					<key>ColliableWithItems</key>
+					<true/>
+				</dict>
+				<key>Villager3</key>
+				<dict>
+					<key>Front</key>
+					<string>VillagerFront</string>
+					<key>Back</key>
+					<string>VillagerBack</string>
+					<key>Left</key>
+					<string>VillagerLeft</string>
+					<key>Right</key>
+					<string>VillagerRight</string>
+					<key>BaseImage</key>
+					<string>VillagerBase</string>
+					<key>InitialSpeech</key>
+					<array>
+						<string>I&apos;m just here to test some things out</string>
+						<string>Really! Please stop bothering me.</string>
+					</array>
+					<key>ReminderSpeech</key>
+					<array>
+						<string>What?!? Did you forget I&apos;m just a test Villager?</string>
+						<string>Ugh! Please leave me alone.</string>
+					</array>
+					<key>Range</key>
+					<string>VillagerRange3</string>
+					<key>SpeechTime</key>
+					<string>1</string>
+					<key>Icon</key>
+					<string>VillagerIcon</string>
+					<key>Collidable</key>
+					<false/>
+					<key>ColliableWithItems</key>
+					<true/>
 				</dict>
 			</dict>
+			<key>Items</key>
+			<dict>
+				<key>GrasslandCastle</key>
+				<dict>
+					<key>Requires</key>
+					<dict>
+						<key>Thing</key>
+						<string>CastleKey</string>
+						<key>Amount</key>
+						<integer>1</integer>
+						<key>DeductOnEntry</key>
+						<true/>
+						<key>TimeToOpen</key>
+						<integer>0</integer>
+					</dict>
+					<key>Rewards - OFF</key>
+					<dict>
+						<key>Health</key>
+						<string></string>
+						<key>Weapon</key>
+						<string></string>
+						<key>Inventory</key>
+						<string></string>
+						<key>Currency</key>
+						<string></string>
+						<key>Class</key>
+						<string></string>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>LockedIcon</key>
+						<string>CastleIconLocked</string>
+						<key>UnlockedIcon</key>
+						<string>CastleIconUnlocked</string>
+						<key>OpenIcon</key>
+						<string>CastleIconOpen</string>
+						<key>Locked</key>
+						<array>
+							<string>Uh oh, looks like the castle requires a key</string>
+							<string>Eep! We need a key!</string>
+						</array>
+						<key>Unlocked</key>
+						<string>Hey I think I can open the castle now. Better go find it!</string>
+						<key>Open</key>
+						<string>I&apos;ve got the castle open</string>
+						<key>Time</key>
+						<string>3</string>
+					</dict>
+					<key>PortalTo</key>
+					<dict>
+						<key>Level</key>
+						<string>Dungeon</string>
+						<key>Where</key>
+						<string>EntryPoint</string>
+						<key>Delay</key>
+						<integer>2</integer>
+					</dict>
+					<key>AltPortalTo</key>
+					<dict>
+						<key>Level</key>
+						<string></string>
+						<key>Where</key>
+						<string>VillagerRange1</string>
+						<key>Delay</key>
+						<integer>2</integer>
+					</dict>
+					<key>Sounds</key>
+					<dict>
+						<key>Locked</key>
+						<string></string>
+						<key>Open</key>
+						<string></string>
+					</dict>
+					<key>Appearance</key>
+					<dict>
+						<key>OpenImage</key>
+						<string>CastleOpen</string>
+						<key>OpenAnimation</key>
+						<string></string>
+					</dict>
+					<key>AfterContact - OFF</key>
+					<dict>
+						<key>DeleteFromLevel</key>
+						<false/>
+						<key>DeleteBody</key>
+						<false/>
+					</dict>
+					<key>RememberTo - OFF</key>
+					<dict>
+						<key>NeverRewardAgain</key>
+						<false/>
+						<key>NeverShowAgain</key>
+						<false/>
+						<key>RemainOpen</key>
+						<true/>
+						<key>RemoveText</key>
+						<false/>
+					</dict>
+				</dict>
+				<key>Chest</key>
+				<dict>
+					<key>Requires</key>
+					<dict>
+						<key>TimeToOpen</key>
+						<integer>5</integer>
+						<key>TimerName</key>
+						<string>OpenTimer</string>
+					</dict>
+					<key>Rewards</key>
+					<dict>
+						<key>Diamonds</key>
+						<string>10</string>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Locked</key>
+						<array>
+							<string>I think I can open this, give me a second!</string>
+							<string>I think I can pick the lock, give me a moment!</string>
+						</array>
+						<key>Open</key>
+						<string>I&apos;ve got the chest open.</string>
+						<key>Time</key>
+						<string>1</string>
+					</dict>
+					<key>Appearance</key>
+					<dict>
+						<key>OpenAnimation</key>
+						<string>ChestOpen</string>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>DeleteBody</key>
+						<true/>
+					</dict>
+					<key>RememberTo</key>
+					<dict>
+						<key>NeverRewardAgain</key>
+						<true/>
+						<key>NeverShowAgain</key>
+						<false/>
+						<key>RemainOpen</key>
+						<true/>
+						<key>RemoveText</key>
+						<true/>
+					</dict>
+				</dict>
+				<key>CastleKey</key>
+				<dict>
+					<key>Rewards</key>
+					<dict>
+						<key>CastleKey</key>
+						<integer>1</integer>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>DeleteFromLevel</key>
+						<true/>
+					</dict>
+					<key>RemoveWhen</key>
+					<dict>
+						<key>CastleKey</key>
+						<integer>1</integer>
+					</dict>
+				</dict>
+			</dict>
+			<key>Rewards - OFF</key>
+			<dict>
+				<key>Health</key>
+				<integer>0</integer>
+				<key>Weapon</key>
+				<string></string>
+				<key>CastleKey</key>
+				<integer>0</integer>
+				<key>Currency</key>
+				<integer>0</integer>
+				<key>Class</key>
+				<string></string>
+			</dict>
+			<key>Clear - OFF</key>
+			<array>
+				<string>CastleKey</string>
+			</array>
 		</dict>
 		<key>Dungeon</key>
 		<dict>
@@ -182,6 +406,161 @@
 					<key>Collidable</key>
 					<false/>
 				</dict>
+			</dict>
+			<key>Items</key>
+			<dict>
+				<key>DungeonCastle</key>
+				<dict>
+					<key>Requires</key>
+					<dict>
+						<key>Inventory</key>
+						<string>Nothing</string>
+						<key>Amount</key>
+						<integer>0</integer>
+						<key>DeductOnEntry</key>
+						<false/>
+						<key>TimeToOpen</key>
+						<integer>0</integer>
+					</dict>
+					<key>Rewards</key>
+					<dict>
+						<key>Health</key>
+						<string></string>
+						<key>Weapon</key>
+						<string></string>
+						<key>Inventory</key>
+						<string></string>
+						<key>Currency</key>
+						<string></string>
+						<key>Class</key>
+						<string></string>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Locked</key>
+						<string></string>
+						<key>Open</key>
+						<string></string>
+					</dict>
+					<key>PortalTo</key>
+					<dict>
+						<key>Level</key>
+						<string>Grassland</string>
+						<key>Where</key>
+						<string>EntryPoint</string>
+					</dict>
+					<key>AltPortalTo</key>
+					<dict>
+						<key>Level</key>
+						<string></string>
+						<key>Where</key>
+						<string></string>
+					</dict>
+					<key>Sounds</key>
+					<dict>
+						<key>Locked</key>
+						<string></string>
+						<key>Open</key>
+						<string></string>
+					</dict>
+					<key>Appearance</key>
+					<dict>
+						<key>OpenImage</key>
+						<string></string>
+						<key>OpenAnimation</key>
+						<string></string>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>NeverRewardAgain</key>
+						<false/>
+						<key>NeverShowAgain</key>
+						<false/>
+						<key>DeleteFromLevel</key>
+						<false/>
+						<key>DeleteBody</key>
+						<false/>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+	<key>Items</key>
+	<dict>
+		<key>Castle</key>
+		<dict>
+			<key>Requires</key>
+			<dict>
+				<key>Inventory</key>
+				<string>Key</string>
+				<key>Amount</key>
+				<integer>50</integer>
+				<key>DeductOnEntry</key>
+				<false/>
+				<key>TimeToOpen</key>
+				<integer>0</integer>
+			</dict>
+			<key>Rewards</key>
+			<dict>
+				<key>Health</key>
+				<string></string>
+				<key>Weapon</key>
+				<string></string>
+				<key>Inventory</key>
+				<string></string>
+				<key>Currency</key>
+				<string></string>
+				<key>Class</key>
+				<string></string>
+			</dict>
+			<key>Text</key>
+			<dict>
+				<key>Locked</key>
+				<string></string>
+				<key>Open</key>
+				<string></string>
+			</dict>
+			<key>PortalTo</key>
+			<dict>
+				<key>Level</key>
+				<string></string>
+				<key>Where</key>
+				<string></string>
+			</dict>
+			<key>AltPortalTo</key>
+			<dict>
+				<key>Level</key>
+				<string></string>
+				<key>Where</key>
+				<string></string>
+			</dict>
+			<key>Sounds</key>
+			<dict>
+				<key>Locked</key>
+				<string></string>
+				<key>Open</key>
+				<string></string>
+			</dict>
+			<key>Appearance</key>
+			<dict>
+				<key>OpenImage</key>
+				<string></string>
+				<key>OpenAnimation</key>
+				<string></string>
+			</dict>
+			<key>AfterContact</key>
+			<dict>
+				<key>DeleteFromLevel</key>
+				<false/>
+				<key>DeleteBody</key>
+				<false/>
+			</dict>
+			<key>RememberTo</key>
+			<dict>
+				<key>NeverRewardAgain</key>
+				<false/>
+				<key>NeverShowAgain</key>
+				<false/>
 			</dict>
 		</dict>
 	</dict>

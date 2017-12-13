@@ -21,14 +21,16 @@ class NPC: SKSpriteNode {
   var initialSpeeches = [String]()
   var reminderSpeeches = [String]()
   var alreadyContacted = false
+  var infoDisplayTime = TimeInterval(1)
   
   var baseFrame = ""
   
   var currentSpeech = ""
   var speechIcon = ""
   
-  var isCollidable = false
-  
+  var isCollidableWithPlayer = false
+  var isCollidableWithItems = false
+
   
 
   func setup(withDict dict: [String: Any]) {
@@ -81,19 +83,35 @@ class NPC: SKSpriteNode {
           speechIcon = value
         }
       }
-      else if key == "Collidable" {
+      else if key == "CollidableWithPlayer" {
         if let value = value as? Bool {
-          isCollidable = value
+          isCollidableWithPlayer = value
         }
       }
+      else if key == "CollidableWithItems" {
+        if let value = value as? Bool {
+          isCollidableWithItems = value
+        }
+      }
+      else if let displayTime = value as? TimeInterval, key == "SpeechTime" {
+        infoDisplayTime = displayTime
+      }
+
 
     } // loop dict
     
-    if isCollidable {
-      physicsBody?.collisionBitMask = BodyType.Building // collide with building, not player
-    } else {
-      physicsBody?.collisionBitMask = 0 // collide with nothing
+    // Collide with attack area and other NPCs
+    var collidesWith = BodyType.AttackArea | BodyType.NPC
+    
+    // Collide with other things based on GameData
+    if isCollidableWithPlayer {
+      collidesWith |= BodyType.Player
     }
+    if isCollidableWithItems {
+      collidesWith |= BodyType.Item
+    }
+    
+    physicsBody?.collisionBitMask = collidesWith
     
     walkRandom()
     
@@ -155,7 +173,6 @@ class NPC: SKSpriteNode {
       isWalking = true
       walkRandom()
     }
-    currentSpeech = ""
   } // endContactPlayer
   
   

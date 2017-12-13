@@ -25,7 +25,7 @@ class AttackArea: SKSpriteNode {
     
     physicsBody?.categoryBitMask = BodyType.AttackArea
     physicsBody?.collisionBitMask = 0 // collides with nothing
-    physicsBody?.contactTestBitMask = BodyType.Castle
+    physicsBody?.contactTestBitMask = 0 // contacts nothing
     
     print("Setup Attack Area")
     

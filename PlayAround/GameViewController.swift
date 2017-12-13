@@ -18,9 +18,14 @@ class GameViewController: UIViewController {
     super.viewDidLoad()
   
     var initialLevel = "Grassland"
+    var initialEntryNodeName = ""
 
-    if (defaults.object(forKey: "ContinuePoint") != nil) {
-      initialLevel = defaults.string(forKey: "ContinuePoint")!
+    if let savedLevel = defaults.object(forKey: "ContinuePoint") as? String {
+       initialLevel = savedLevel
+    }
+    
+    if let savedEntry = defaults.object(forKey: "CountinueWhere") as? String {
+      initialEntryNodeName = savedEntry
     }
     
     if let view = self.view as! SKView? {
@@ -31,6 +36,7 @@ class GameViewController: UIViewController {
         // Set the scale mode to scale to fit the window
         scene.scaleMode = .aspectFill
         scene.currentLevel = initialLevel
+        scene.entryNodeName = initialEntryNodeName
       
         // Present the scene
         view.presentScene(scene)
