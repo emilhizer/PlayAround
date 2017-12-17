@@ -17,7 +17,7 @@ extension GameScene {
   func parseItemRewards(withDict dict: [String: Any]) {
     
     for (key, value) in dict {
-      
+      /*
       if let health = value as? String, key == "Health" {
       }
       else if let weapon = value as? String, key == "Weapon" {
@@ -29,7 +29,9 @@ extension GameScene {
       else if let playerClass = value as? String, key == "Class" {
       }
       // Catch all (named) inventory items that have a numberical (qty) reward
-      else if let newAmount = value as? Int {
+      else
+      */
+      if let newAmount = value as? Int {
         addToInventory(withName: key, andAmount: newAmount)
       }
       

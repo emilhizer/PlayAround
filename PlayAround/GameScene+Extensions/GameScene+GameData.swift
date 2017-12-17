@@ -48,7 +48,7 @@ extension GameScene {
             } // for each element in level data
           } // level data
         } // current level
-      } // fore each level
+      } // for each level
       
     } // parse plist
     
@@ -108,7 +108,7 @@ extension GameScene {
   // Setup NPC that's been created by scenekit editor
   func useDict(withNPC npc: NPC, andDict dict: [String: Any]) {
     for (key, value) in dict {
-      if key == "Rnage" {
+      if key == "Range" {
         npc.position = putSpriteWithinRange(nodeName: value as! String)
       }
       if key == "BaseImage" {

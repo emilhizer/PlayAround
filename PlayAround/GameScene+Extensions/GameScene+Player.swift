@@ -14,7 +14,7 @@ extension GameScene {
   
   func setupPlayer() {
     // Get the Player
-    if let findPlayer = childNode(withName: "Player") as? SKSpriteNode {
+    if let findPlayer = childNode(withName: "Player") as? Player {
       print("Found Player")
       thePlayer = findPlayer
       
@@ -30,6 +30,14 @@ extension GameScene {
       thePlayer.physicsBody!.contactTestBitMask =
         BodyType.Item
       
+      // Get player class (like a D&D "class" not swift class)
+      let playerClassName = defaults.string(forKey: "PlayerClass") ?? "Starting"
+      if playerClassName == "Starting" {
+        defaults.set("Starting", forKey: "PlayerClass")
+      }
+      
+      parsePropertyListForPlayer(className: playerClassName)
+      
       // If specific entry point (node) defined, then move player there
       if entryNodeName != "" {
         if let entryNode = childNode(withName: entryNodeName) {
@@ -39,6 +47,19 @@ extension GameScene {
     } // thePlayer
   } // setupPlayer
 
+  
+  // Parse Player "class" dictionary
+  func parsePropertyListForPlayer(className: String) {
+    guard let result = getPList(fromFile: "GameData.plist") else {
+      fatalError("ERROR: Could not load Game Data plist file")
+    }
+    
+    if let classDict = result["Class"] as? [String: Any] {
+      if let playerClassDict = classDict[className] as? [String: Any] {
+        thePlayer.setup(withDict: playerClassDict)
+      }
+    }
+  } // parsePropertyListForPlayer
   
   // Contact between Player and World Item
   func playerContact(withItem item: WorldItem) {
@@ -152,11 +173,31 @@ extension GameScene {
   func attack() {
     let newAttack = AttackArea(imageNamed:"AttackCircle")
     newAttack.position = thePlayer.position
+    newAttack.scaleSize = thePlayer.meleeScaleSize
+    newAttack.animationName = thePlayer.meleeAnimationName
+    
     newAttack.setup()
     newAttack.zPosition = thePlayer.zPosition - 1
     addChild(newAttack)
     
-    thePlayer.run(SKAction(named: "FrontAttack")!)
+    var animationName = ""
+    switch playerFacing {
+    case .front:
+      animationName = thePlayer.frontMelee
+    case .back:
+      animationName = thePlayer.backMelee
+    case .left:
+      animationName = thePlayer.leftMelee
+    case .right:
+      animationName = thePlayer.rightMelee
+    }
+    
+    let attackAction = SKAction(named: animationName)!
+    let finishAction = SKAction.run {
+      self.runIdleAnimation()
+    }
+    thePlayer.run(SKAction.sequence([attackAction, finishAction]), withKey: "Attack")
+    
   } // attack
 
   func enterPortalInCurrentLevel(withLocationName toWhere: String, delay: TimeInterval) {
@@ -227,6 +268,76 @@ extension GameScene {
     }
   } // enterPortal
 
+  func makePlayerFollow(path: CGMutablePath) {
+    let followAction = SKAction.follow(path,
+                                       asOffset: false,
+                                       orientToPath: false,
+                                       duration: playerWalkTime)
+    print("Player Walk Time: \(playerWalkTime)")
+    let finishAction = SKAction.run {
+      // self.runIdleAnimation()
+    }
+    thePlayer.run(SKAction.sequence([followAction, finishAction]), withKey: "PlayerMoving")
+  } // makePlayerFollow:path
+  
+  func runIdleAnimation() {
+    var faceDirection: String
+    switch playerFacing {
+    case .front:
+      faceDirection = thePlayer.frontIdle
+    case .back:
+      faceDirection = thePlayer.backIdle
+    case .left:
+      faceDirection = thePlayer.leftIdle
+    case .right:
+      faceDirection = thePlayer.rightIdle
+    }
+    let idleAnimation = SKAction(named: faceDirection, duration: 1)!
+    thePlayer.run(idleAnimation)
+  } // runIdleAnimation
+  
+  func playerUpdate() {
+    if (thePlayer.action(forKey: "PlayerMoving") != nil) &&
+       (thePlayer.action(forKey: "Attack") == nil) &&
+       (playerLastLocation != CGPoint.zero) {
+      let movingX = thePlayer.position.x - playerLastLocation.x
+      let movingY = thePlayer.position.y - playerLastLocation.y
+      
+      var actionKey = ""
+      
+      // Move more left/right than up/down?
+      if abs(movingX) > abs(movingY) {
+        if movingX > 0 {
+          playerFacing = .right
+          actionKey = thePlayer.rightWalk
+        } else {
+          playerFacing = .left
+          actionKey = thePlayer.leftWalk
+        }
+      // Moving more up/down than left/right
+      } else {
+        if movingY > 0 {
+          playerFacing = .back
+          actionKey = thePlayer.backWalk
+        } else {
+          playerFacing = .front
+          actionKey = thePlayer.frontWalk
+        }
+      } // test move left/right vs. up/down
+      
+      let walkAnimation = SKAction(named: actionKey, duration: 0.25)!
+      thePlayer.run(walkAnimation, withKey: actionKey)
+      
+    } // is player moving?
+    
+    playerLastLocation = thePlayer.position
+    
+  } // playerUpdate
+  
+  
+  
+  
+  
   
 } // GameScene+Player
 

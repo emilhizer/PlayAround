@@ -20,11 +20,22 @@ enum BodyType {
 
 }
 
+enum Facing: Int {
+  case front, back, left, right
+}
+
+
+
 // MARK: - Main Class
 class GameScene: SKScene {
   
+  // MARK: - Constants
+  enum Constant {
+    
+  }
+  
   // MARK: - Properties
-  var thePlayer = SKSpriteNode()
+  var thePlayer = Player()
   var building1 = SKSpriteNode()
   var building2 = SKSpriteNode()
   var moveSpeed = TimeInterval(1)
@@ -55,6 +66,16 @@ class GameScene: SKScene {
   
   let defaults = UserDefaults.standard
   
+  // +Player
+  var playerFacing = Facing.front
+  var playerLastLocation = CGPoint.zero
+  var lastTouchLocation = CGPoint.zero
+  var playerWalkTime = TimeInterval(0)
+  
+  // +Touches
+  var playerPath = [CGPoint]()
+  var playerTouchOffset = CGPoint.zero
+  
   // +GameData Extension
   var cameraFollowsPlayer = true
   var cameraOffset = CGPoint.zero
@@ -75,6 +96,8 @@ class GameScene: SKScene {
     
     physicsWorld.contactDelegate = self
     
+    // Removing most gestures - full control now using touches
+    // But keep tap gesture for attacking
     setupGestures()
     
     setupCameraAndHUD()
@@ -137,7 +160,11 @@ class GameScene: SKScene {
   override func update(_ currentTime: TimeInterval) {
 
     for node in children {
-      if (node.name == "Building") || (node.name == "Chest") {
+      if node is AttackArea {
+        // Move the attack area node along with player node
+        node.position = thePlayer.position
+      }
+      else if (node.name == "Building") || (node.name == "Chest") {
         if node.position.y > thePlayer.position.y {
           node.zPosition = 1
         } else {
@@ -150,6 +177,8 @@ class GameScene: SKScene {
       hudNode.position = CGPoint(x: thePlayer.position.x + cameraOffset.x,
                                  y: thePlayer.position.y + cameraOffset.y)
     }
+    
+    playerUpdate()
   } // update
   
   

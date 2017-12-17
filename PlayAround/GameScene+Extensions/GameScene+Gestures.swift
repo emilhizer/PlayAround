@@ -13,6 +13,7 @@ import SpriteKit
 extension GameScene {
   
   func setupGestures() {
+    /* No longer using swipe gestures
     swipeRightRec.addTarget(self, action: #selector(swipedRight))
     swipeRightRec.direction = .right
     view?.addGestureRecognizer(swipeRightRec)
@@ -31,6 +32,7 @@ extension GameScene {
     
     rotateRec.addTarget(self, action: #selector(rotatedView(_:)))
     view?.addGestureRecognizer(rotateRec)
+    */
     
     tapRec.addTarget(self, action: #selector(tappedView))
     tapRec.numberOfTouchesRequired = 1
