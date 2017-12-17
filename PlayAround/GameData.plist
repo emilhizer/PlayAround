@@ -594,7 +594,7 @@
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>
-					<string>FrontBack</string>
+					<string>IdleFront</string>
 				</dict>
 				<key>Left</key>
 				<dict>
@@ -607,20 +607,20 @@
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>
-					<string>LeftBack</string>
+					<string>IdleLeft</string>
 				</dict>
 				<key>Right</key>
 				<dict>
 					<key>Walk</key>
-					<string>WalkFront</string>
+					<string>WalkRight</string>
 					<key>Melee</key>
-					<string>FronAtttack</string>
+					<string>RightAtttack</string>
 					<key>Projectile</key>
 					<string></string>
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>
-					<string>FrontBack</string>
+					<string>IdleRight</string>
 				</dict>
 			</dict>
 			<key>Sounds</key>
