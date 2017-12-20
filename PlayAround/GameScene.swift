@@ -66,6 +66,8 @@ class GameScene: SKScene {
   
   let defaults = UserDefaults.standard
   
+  var hasCustomPadScene = false
+  
   // +Player
   var playerFacing = Facing.front
   var playerLastLocation = CGPoint.zero
@@ -138,6 +140,11 @@ class GameScene: SKScene {
       if let cameraNode = childNode(withName: "//Camera") as? SKCameraNode {
         print(" -- Found camera")
         camera = cameraNode
+        // Adjust camera if on ipad and no special iPad scene created/exists
+        if (UIDevice.current.userInterfaceIdiom == .pad) && !hasCustomPadScene {
+          print("No custom iPad SKS file, adjust camera a bit")
+          cameraNode.setScale(1.5)
+        }
       }
       
       if let infoLabel = childNode(withName: "//InfoLabel1") as? SKLabelNode {
@@ -154,6 +161,7 @@ class GameScene: SKScene {
         speechIcon = iconNode
         speechIcon.isHidden = true
       }
+      
       
     } // HUD node found
     

@@ -185,8 +185,13 @@ extension GameScene {
     case .front:
       animationName = thePlayer.frontMelee
     case .back:
+      // Flip attack animation horiz and vert
+      newAttack.xScale = -1
+      newAttack.yScale = -1
       animationName = thePlayer.backMelee
     case .left:
+      // Flip attack horiz
+      newAttack.xScale = -1
       animationName = thePlayer.leftMelee
     case .right:
       animationName = thePlayer.rightMelee
@@ -281,7 +286,7 @@ extension GameScene {
   } // makePlayerFollow:path
   
   func runIdleAnimation() {
-    var faceDirection: String
+    var faceDirection = ""
     switch playerFacing {
     case .front:
       faceDirection = thePlayer.frontIdle
@@ -292,8 +297,10 @@ extension GameScene {
     case .right:
       faceDirection = thePlayer.rightIdle
     }
-    let idleAnimation = SKAction(named: faceDirection, duration: 1)!
-    thePlayer.run(idleAnimation)
+    if faceDirection != "" {
+      let idleAnimation = SKAction(named: faceDirection, duration: 1)!
+      thePlayer.run(idleAnimation, withKey: "Idle")
+    }
   } // runIdleAnimation
   
   func playerUpdateWithPath() {

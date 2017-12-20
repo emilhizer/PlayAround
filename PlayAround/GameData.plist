@@ -656,8 +656,10 @@
 			</dict>
 			<key>Stats</key>
 			<dict>
-				<key>Speed</key>
+				<key>PathSpeed</key>
 				<integer>200</integer>
+				<key>Speed</key>
+				<integer>150</integer>
 				<key>Health</key>
 				<integer>20</integer>
 				<key>Armor</key>

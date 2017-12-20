@@ -14,10 +14,13 @@ extension GameScene {
   // Load the level
   func loadLevel(_ levelName: String, toNodeName: String) {
     
+//    var hasCustomPadScene = false
+    
     if !transitionInProgress {
       transitionInProgress = true
       
-      let sksNameToLoad = Helpers.checkIfSKSExists(forName: levelName)
+      let result = Helpers.checkIfSKSExists(forName: levelName)
+      let sksNameToLoad = result.0
       
       if let scene = GameScene(fileNamed: sksNameToLoad) {
         // cleanupScene()
@@ -25,6 +28,7 @@ extension GameScene {
         scene.currentLevel = levelName
         scene.scaleMode = .aspectFill
         scene.entryNodeName = toNodeName
+        scene.hasCustomPadScene = result.1
         
         let transition = SKTransition.fade(with: SKColor.black,
                                            duration: 2)

@@ -11,20 +11,22 @@ import SpriteKit
 
 class Helpers {
   
-  static func checkIfSKSExists(forName baseName: String) -> String {
+  static func checkIfSKSExists(forName baseName: String) -> (String, Bool) {
     
     var finalName = baseName
+    var hasCustomPadScene = false
     
     if UIDevice.current.userInterfaceIdiom == .pad {
       if let _ = GameScene(fileNamed: baseName + "_Pad") {
         finalName += "_Pad"
+        hasCustomPadScene = true
       }
     }
     
     // .phone is default SKS name
     // Worry about TV form factor later
     
-    return finalName
+    return (finalName, hasCustomPadScene)
   } // checkIfSKSExists
   
   

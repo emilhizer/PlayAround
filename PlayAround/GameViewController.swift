@@ -19,6 +19,7 @@ class GameViewController: UIViewController {
   
     var initialLevel = "Grassland"
     var initialEntryNodeName = ""
+    var hasCustomPadScene = false
 
     if let savedLevel = defaults.object(forKey: "ContinuePoint") as? String {
        initialLevel = savedLevel
@@ -30,13 +31,16 @@ class GameViewController: UIViewController {
     
     if let view = self.view as! SKView? {
       // Load the GameScene:SKScene from initialLevel(.sks)
-      let sksNameToLoad = Helpers.checkIfSKSExists(forName: initialLevel)
+      let result = Helpers.checkIfSKSExists(forName: initialLevel)
+      let sksNameToLoad = result.0
+      hasCustomPadScene = result.1
 
       if let scene = GameScene(fileNamed: sksNameToLoad) {
         // Set the scale mode to scale to fit the window
         scene.scaleMode = .aspectFill
         scene.currentLevel = initialLevel
         scene.entryNodeName = initialEntryNodeName
+        scene.hasCustomPadScene = hasCustomPadScene
       
         // Present the scene
         view.presentScene(scene)

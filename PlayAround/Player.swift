@@ -31,11 +31,17 @@ class Player: SKSpriteNode {
   var meleeAnimationName = "Attacking"
   var meleeScaleSize = CGFloat(2)
   var meleeAnimationSize = CGSize(width: 100, height: 100)
+  var meleeTimeBetweenUse = TimeInterval(0)
+  var meleeDamage = 1
   
-  var walkSpeed = CGFloat(200) // default is 200 pxl/second
-  var health = 20
-  var armor = 20
+  var walkSpeedOnPath = CGFloat(200) // default is 200 pxl/second
+  var walkSpeed = CGFloat(150) // speed when not on path
+  var maxHealth = 20
+  var maxArmor = 20
   var immunityTime = TimeInterval(1)
+  
+  var currentHealth = 20
+  var currentArmor = 20
 
 
   func setup(withDict dict: [String: Any]) {
@@ -118,9 +124,9 @@ class Player: SKSpriteNode {
 
       if let meleeDict = value as? [String: Any], key == "Melee" {
         for (key, value) in meleeDict {
-//          if let value = value as? Int, key == "Damage" {
-//            
-//          }
+          if let value = value as? Int, key == "Damage" {
+            meleeDamage = value
+          }
           if let value = value as? String, key == "Size" {
             meleeAnimationSize = CGSizeFromString(value)
           }
@@ -130,9 +136,9 @@ class Player: SKSpriteNode {
           if let value = value as? CGFloat, key == "ScaleTo" {
             meleeScaleSize = value
           }
-//          if let value = value as? TimeInterval, key == "TimeBetweenUse" {
-//
-//          }
+          if let value = value as? TimeInterval, key == "TimeBetweenUse" {
+            meleeTimeBetweenUse = value
+          }
         } // cycle through meleeDict
       } // Melee
 
@@ -140,9 +146,25 @@ class Player: SKSpriteNode {
 //
 //      } // Ranged
 
-//      if let statsDict = value as? [String: Any], key == "Stats" {
-//
-//      } // Stats
+      if let statsDict = value as? [String: Any], key == "Stats" {
+        if let value = statsDict["PathSpeed"] as? CGFloat {
+          walkSpeedOnPath = value
+        }
+        if let value = statsDict["Speed"] as? CGFloat {
+          walkSpeed = value
+        }
+        if let value = statsDict["Health"] as? Int {
+          maxHealth = value
+          currentHealth = maxHealth // set current health to max health
+        }
+        if let value = statsDict["Armor"] as? Int {
+          maxArmor = value
+          currentArmor = maxArmor
+        }
+        if let value = statsDict["Armor"] as? TimeInterval {
+          immunityTime = value
+        }
+      } // Stats
 
       
       

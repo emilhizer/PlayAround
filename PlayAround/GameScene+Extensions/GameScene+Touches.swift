@@ -47,6 +47,7 @@ extension GameScene {
     // VPad only enabled when touching left side of screen
     if pos.x < 0 {
       touchingDown = true
+      thePlayer.removeAction(forKey: "Idle")
       offsetFromTouchToPlayer = CGPoint(x: thePlayer.position.x - pos.x,
                                         y: thePlayer.position.y - pos.y)
       
