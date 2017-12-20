@@ -80,6 +80,14 @@ class GameScene: SKScene {
   var cameraFollowsPlayer = true
   var cameraOffset = CGPoint.zero
   var disableAttack = false
+  
+  var attackAnywhere = false
+  var pathAlpha = CGFloat(0.3)
+  var walkWithPath = false
+  var touchingDown = false
+  var touchDownSprite = SKSpriteNode()
+  var touchFollowSprite = SKSpriteNode()
+  var offsetFromTouchToPlayer = CGPoint.zero
 
   // +Helper Extension
   var entryNodeName = ""
@@ -178,7 +186,11 @@ class GameScene: SKScene {
                                  y: thePlayer.position.y + cameraOffset.y)
     }
     
-    playerUpdate()
+    if walkWithPath {
+      playerUpdateWithPath()
+    } else {
+      playerUpdateWithVPad()
+    }
   } // update
   
   

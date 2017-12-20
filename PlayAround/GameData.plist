@@ -614,7 +614,7 @@
 					<key>Walk</key>
 					<string>WalkRight</string>
 					<key>Melee</key>
-					<string>RightAtttack</string>
+					<string>RightAttack</string>
 					<key>Projectile</key>
 					<string></string>
 					<key>Hurt</key>
@@ -666,6 +666,15 @@
 				<integer>1</integer>
 			</dict>
 		</dict>
+	</dict>
+	<key>Settings</key>
+	<dict>
+		<key>PathAlpha</key>
+		<real>0.2</real>
+		<key>WalkWithPath</key>
+		<false/>
+		<key>AttackAnywhere</key>
+		<false/>
 	</dict>
 </dict>
 </plist>

@@ -275,7 +275,7 @@ extension GameScene {
                                        duration: playerWalkTime)
     print("Player Walk Time: \(playerWalkTime)")
     let finishAction = SKAction.run {
-      // self.runIdleAnimation()
+      self.runIdleAnimation()
     }
     thePlayer.run(SKAction.sequence([followAction, finishAction]), withKey: "PlayerMoving")
   } // makePlayerFollow:path
@@ -296,7 +296,7 @@ extension GameScene {
     thePlayer.run(idleAnimation)
   } // runIdleAnimation
   
-  func playerUpdate() {
+  func playerUpdateWithPath() {
     if (thePlayer.action(forKey: "PlayerMoving") != nil) &&
        (thePlayer.action(forKey: "Attack") == nil) &&
        (playerLastLocation != CGPoint.zero) {
@@ -325,16 +325,72 @@ extension GameScene {
         }
       } // test move left/right vs. up/down
       
-      let walkAnimation = SKAction(named: actionKey, duration: 0.25)!
-      thePlayer.run(walkAnimation, withKey: actionKey)
+      if thePlayer.action(forKey: actionKey) == nil {
+        let walkAnimation = SKAction(named: actionKey, duration: 0.25)!
+        thePlayer.run(walkAnimation, withKey: actionKey)
+      }
       
     } // is player moving?
     
     playerLastLocation = thePlayer.position
     
-  } // playerUpdate
+  } // playerUpdateWithPath
   
+  func playerUpdateWithVPad() {
+    if touchingDown {
+      let distance = CGFloat(2)
+      var posX = thePlayer.position.x
+      var posY = thePlayer.position.y
+      var animationName = ""
+      switch playerFacing {
+      case .back:
+        posY += distance
+        animationName = thePlayer.backWalk
+      case .front:
+        posY -= distance
+        animationName = thePlayer.frontWalk
+      case .left:
+        posX -= distance
+        animationName = thePlayer.leftWalk
+      case .right:
+        posX += distance
+        animationName = thePlayer.rightWalk
+      }
+      thePlayer.position = CGPoint(x: posX, y: posY)
+      if thePlayer.action(forKey: animationName) == nil {
+        thePlayer.removeAction(forKey: thePlayer.backWalk)
+        thePlayer.removeAction(forKey: thePlayer.frontWalk)
+        thePlayer.removeAction(forKey: thePlayer.leftWalk)
+        thePlayer.removeAction(forKey: thePlayer.rightWalk)
+        
+        let walkAnimation = SKAction(named: animationName, duration: 0.25)!
+        let repeatAction = SKAction.repeatForever(walkAnimation)
+        thePlayer.run(repeatAction, withKey: animationName)
+      }
+    }
+  } // playerUpdateWithVPad
   
+  func orientPlayer(toPos pos: CGPoint) {
+    let movingX = pos.x - touchDownSprite.position.x
+    let movingY = pos.y - touchDownSprite.position.y
+    
+    // Move more left/right than up/down?
+    if abs(movingX) > abs(movingY) {
+      if movingX > 0 {
+        playerFacing = .right
+      } else {
+        playerFacing = .left
+      }
+      // Moving more up/down than left/right
+    } else {
+      if movingY > 0 {
+        playerFacing = .back
+      } else {
+        playerFacing = .front
+      }
+    } // test move left/right vs. up/down
+    
+  } // orientPlayer
   
   
   

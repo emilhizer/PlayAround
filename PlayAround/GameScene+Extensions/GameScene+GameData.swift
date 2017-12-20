@@ -21,6 +21,19 @@ extension GameScene {
     print("Game Data:")
     print(result)
     
+    // Parse global settings dictionary
+    if let settingsDict = result["Settings"] as? [String: Any] {
+      if let value = settingsDict["PathAlpha"] as? CGFloat {
+        pathAlpha = value
+      }
+      if let value = settingsDict["WalkWithPath"] as? Bool {
+        walkWithPath = value
+      }
+      if let value = settingsDict["AttackAnywhere"] as? Bool {
+        attackAnywhere = value
+      }
+    }
+    
     // Parse property list dictionary
     if let levelDict = result["Levels"] as? [String: Any] {
       for (key, value) in levelDict {
