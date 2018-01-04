@@ -43,13 +43,15 @@ extension GameScene {
   func touchDownWithVPad(atPoint pos: CGPoint) {
 
     let posInHUD = convert(pos, to: hudNode)
+    let playerPosInHUD = convert(thePlayer.position, to: hudNode)
+    print("-- Touched Down w VPad at GS Point: \(pos); HUD Point: \(posInHUD)")
     
     // VPad only enabled when touching left side of screen
-    if pos.x < 0 {
+    if posInHUD.x < 0 {
       touchingDown = true
       thePlayer.removeAction(forKey: "Idle")
-      offsetFromTouchToPlayer = CGPoint(x: thePlayer.position.x - pos.x,
-                                        y: thePlayer.position.y - pos.y)
+      offsetFromTouchToPlayer = CGPoint(x: playerPosInHUD.x - posInHUD.x,
+                                        y: playerPosInHUD.y - posInHUD.y)
       
       if touchDownSprite.parent == nil {
         touchDownSprite = SKSpriteNode(imageNamed: "TouchDown")
@@ -118,6 +120,7 @@ extension GameScene {
   } // touchUpOnPath
   
   func touchUpWithVPad(atPoint pos: CGPoint) {
+    print("TouchUp")
     thePlayer.removeAllActions()
     touchingDown = false
     touchFollowSprite.removeFromParent()

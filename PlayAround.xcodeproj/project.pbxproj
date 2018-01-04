@@ -26,6 +26,7 @@
 		0F35332D1FE4C29200043C86 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F35332C1FE4C29200043C86 /* Player.swift */; };
 		0F38A07F1FCFBCB60008E567 /* GUI.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F38A07E1FCFBCB60008E567 /* GUI.sks */; };
 		0F38A0811FCFBCFB0008E567 /* Grassland.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F38A0801FCFBCFB0008E567 /* Grassland.sks */; };
+		0F79941D1FEA275900C2FD98 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F79941C1FEA275900C2FD98 /* Projectile.swift */; };
 		0F9994641FDCA05C009D58F9 /* Chest.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F9994631FDCA05B009D58F9 /* Chest.atlas */; };
 		0F9994661FDCA07D009D58F9 /* OpenTimer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0F9994651FDCA07D009D58F9 /* OpenTimer.atlas */; };
 		0F9FDD461FCBC3B500C2D3B7 /* BackIssuesBB_reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F9FDD451FCBC3B500C2D3B7 /* BackIssuesBB_reg.ttf */; };
@@ -72,6 +73,7 @@
 		0F35332C1FE4C29200043C86 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0F38A07E1FCFBCB60008E567 /* GUI.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GUI.sks; sourceTree = "<group>"; };
 		0F38A0801FCFBCFB0008E567 /* Grassland.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Grassland.sks; sourceTree = "<group>"; };
+		0F79941C1FEA275900C2FD98 /* Projectile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		0F9994631FDCA05B009D58F9 /* Chest.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Chest.atlas; sourceTree = "<group>"; };
 		0F9994651FDCA07D009D58F9 /* OpenTimer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = OpenTimer.atlas; sourceTree = "<group>"; };
 		0F9FDD451FCBC3B500C2D3B7 /* BackIssuesBB_reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BackIssuesBB_reg.ttf; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				0F2308DA1FC900E70010FCEE /* AttackArea.swift */,
 				0F2308EC1FCB0FC30010FCEE /* NPC.swift */,
 				0FC783CF1FD1089C006C1E57 /* WorldItem.swift */,
+				0F79941C1FEA275900C2FD98 /* Projectile.swift */,
 				0FF59BB41FCD1D780066F9EB /* Helpers.swift */,
 				0F2308EA1FC910D60010FCEE /* GameData.plist */,
 				0FC783CE1FD1067C006C1E57 /* GameScene+Extensions */,
@@ -311,6 +314,7 @@
 				0FF59BA61FCD11B70066F9EB /* GameScene+Gestures.swift in Sources */,
 				0FC35D481FE2338F00002E82 /* GameScene+Touches.swift in Sources */,
 				0F35332D1FE4C29200043C86 /* Player.swift in Sources */,
+				0F79941D1FEA275900C2FD98 /* Projectile.swift in Sources */,
 				0FF59BA81FCD122E0066F9EB /* GameScene+Physics.swift in Sources */,
 				0FF59BAC1FCD151D0066F9EB /* GameScene+Player.swift in Sources */,
 				0F2308DB1FC900E70010FCEE /* AttackArea.swift in Sources */,

@@ -42,6 +42,7 @@ class Player: SKSpriteNode {
   
   var currentHealth = 20
   var currentArmor = 20
+  var currentProjectileName = ""
 
 
   func setup(withDict dict: [String: Any]) {
@@ -142,9 +143,11 @@ class Player: SKSpriteNode {
         } // cycle through meleeDict
       } // Melee
 
-//      if let rangedDict = value as? [String: Any], key == "Ranged" {
-//
-//      } // Ranged
+      if let rangedDict = value as? [String: Any], key == "Ranged" {
+        if let value = rangedDict["Projectile"] as? String {
+          currentProjectileName = value
+        }
+      } // Ranged
 
       if let statsDict = value as? [String: Any], key == "Stats" {
         if let value = statsDict["PathSpeed"] as? CGFloat {

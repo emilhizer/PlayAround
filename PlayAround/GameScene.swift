@@ -16,7 +16,9 @@ enum BodyType {
   static var Player     = UInt32(0x0001)
   static var AttackArea = UInt32(0x0002)
   static var NPC        = UInt32(0x0004)
-  static var Item       = UInt32(0x0008)
+  static var Enemy      = UInt32(0x0008)
+  static var Item       = UInt32(0x0010)
+  static var Projectile = UInt32(0x0012)
 
 }
 
@@ -42,13 +44,6 @@ class GameScene: SKScene {
   
   var hudNode = SKNode()
   
-  let swipeRightRec = UISwipeGestureRecognizer()
-  let swipeLeftRec = UISwipeGestureRecognizer()
-  let swipeUpRec = UISwipeGestureRecognizer()
-  let swipeDownRec = UISwipeGestureRecognizer()
-  let rotateRec = UIRotationGestureRecognizer()
-  let tapRec = UITapGestureRecognizer()
-  
   var currentLevel = "" // will make this part of init later
   
   var playerReceivingInfo = false
@@ -68,6 +63,21 @@ class GameScene: SKScene {
   
   var hasCustomPadScene = false
   
+  // Projectiles
+  var projectiles = [String: Any]()
+  var prevProjectile = [String: Any]()
+  var prevProjectileName = ""
+  var prevProjectileImageName = ""
+  
+  // +Gestures
+  let swipeRightRec = UISwipeGestureRecognizer()
+  let swipeLeftRec = UISwipeGestureRecognizer()
+  let swipeUpRec = UISwipeGestureRecognizer()
+  let swipeDownRec = UISwipeGestureRecognizer()
+  let rotateRec = UIRotationGestureRecognizer()
+  let tapRec = UITapGestureRecognizer()
+  let doubleTapRec = UITapGestureRecognizer()
+  
   // +Player
   var playerFacing = Facing.front
   var playerLastLocation = CGPoint.zero
@@ -78,7 +88,7 @@ class GameScene: SKScene {
   var playerPath = [CGPoint]()
   var playerTouchOffset = CGPoint.zero
   
-  // +GameData Extension
+  // +GameData
   var cameraFollowsPlayer = true
   var cameraOffset = CGPoint.zero
   var disableAttack = false
@@ -91,7 +101,7 @@ class GameScene: SKScene {
   var touchFollowSprite = SKSpriteNode()
   var offsetFromTouchToPlayer = CGPoint.zero
 
-  // +Helper Extension
+  // +Helper
   var entryNodeName = ""
   
 

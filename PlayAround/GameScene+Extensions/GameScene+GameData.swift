@@ -32,9 +32,9 @@ extension GameScene {
       if let value = settingsDict["AttackAnywhere"] as? Bool {
         attackAnywhere = value
       }
-    }
+    } // Parse global settings
     
-    // Parse property list dictionary
+    // Parse levels settings dictionary
     if let levelDict = result["Levels"] as? [String: Any] {
       for (key, value) in levelDict {
         print("Key: \(key)")
@@ -63,7 +63,12 @@ extension GameScene {
         } // current level
       } // for each level
       
-    } // parse plist
+    } // Parse levels setting
+    
+    // Get and save projectiles dictionary
+    if let projectilesDict = result["Projectiles"] as? [String: Any] {
+      projectiles = projectilesDict
+    } // Get and save projectiles
     
   } // setupGameData
   

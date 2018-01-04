@@ -34,20 +34,73 @@ extension GameScene {
     view?.addGestureRecognizer(rotateRec)
     */
     
-    tapRec.addTarget(self, action: #selector(tappedView))
+    // Single tap for melee attack
+    tapRec.addTarget(self, action: #selector(tappedView(_:)))
     tapRec.numberOfTouchesRequired = 1
     tapRec.numberOfTapsRequired = 1
     view?.addGestureRecognizer(tapRec)
+
+    // Double tap for projectile (ranged) attack
+    doubleTapRec.addTarget(self, action: #selector(doubleTappedView(_:)))
+    doubleTapRec.numberOfTouchesRequired = 1
+    doubleTapRec.numberOfTapsRequired = 2
+    view?.addGestureRecognizer(doubleTapRec)
   } // setupGestures
 
   
   // Tapped
-  @objc func tappedView() {
-    print("Tapped")
+  @objc func tappedView(_ sender: UITapGestureRecognizer) {
+    let viewPoint = sender.location(in: view)
+    let gsPoint = convertPoint(fromView: viewPoint)
+//    print("Tapped location in view: \(viewPoint)")
+//    print("Tapped location in GameScene: \(gsPoint)")
     if !disableAttack {
-      attack()
+      if attackAnywhere {
+        attack()
+      } else {
+//        if viewPoint.x > (view!.bounds.width / 2) {
+        if gsPoint.x > 0 {
+          attack()
+        }
+      }
     }
-  }
+  } // tappedView
+  
+  // Double tapped
+  @objc func doubleTappedView(_ sender: UITapGestureRecognizer) {
+    var proceedToAttack = false
+    let viewPoint = sender.location(in: view)
+    let gsPoint = convertPoint(fromView: viewPoint)
+
+    if !disableAttack {
+      if attackAnywhere || (gsPoint.x > 0) {
+        proceedToAttack = true
+      }
+    }
+
+    if proceedToAttack {
+      if thePlayer.currentProjectileName != "" {
+        
+        if prevProjectileName == thePlayer.currentProjectileName {
+          print("-- Reusing Projectile: \(prevProjectileName)")
+          rangedAttack(withProjectile: prevProjectile)
+
+        } else {
+          if let currentProjectile = projectiles[thePlayer.currentProjectileName] as? [String: Any] {
+            print("-- Found Projectile: \(currentProjectile)")
+            prevProjectileName = thePlayer.currentProjectileName
+            prevProjectile = currentProjectile
+            if let value = currentProjectile["Image"] as? String {
+              prevProjectileImageName = value
+            }
+            rangedAttack(withProjectile: prevProjectile)
+          } // Found projectile
+        }
+        
+      } // Has currentProjectile
+    } // Proceed to attack
+    
+  } // doubleTappedView
   
   // Rotated
   @objc func rotatedView(_ sender: UIRotationGestureRecognizer) {

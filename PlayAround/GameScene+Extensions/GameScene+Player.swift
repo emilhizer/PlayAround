@@ -204,6 +204,73 @@ extension GameScene {
     thePlayer.run(SKAction.sequence([attackAction, finishAction]), withKey: "Attack")
     
   } // attack
+  
+  func rangedAttack(withProjectile projectile: [String: Any]) {
+    print("  -- Ranged attack with projectile \(projectile)")
+    let newProjectile = Projectile(imageNamed: prevProjectileImageName)
+    newProjectile.name = prevProjectileName
+    newProjectile.position = thePlayer.position
+    newProjectile.zPosition = thePlayer.zPosition + 1
+    newProjectile.setup(withDict: projectile)
+    
+    addChild(newProjectile)
+    
+    var theDistance = CGFloat(200)
+    if newProjectile.distance > 0 {
+      theDistance = newProjectile.distance
+    }
+    var moveX = CGFloat(0)
+    var moveY = CGFloat(0)
+    var projectileRotation = CGFloat(0)
+    
+    switch playerFacing {
+    case .front:
+      moveY = -theDistance
+    case .back:
+      moveY = theDistance
+      projectileRotation = CGFloat.pi
+    case .left:
+      moveX = -theDistance
+      projectileRotation = CGFloat.pi * 3/2
+    case .right:
+      moveX = theDistance
+      projectileRotation = CGFloat.pi / 2
+    }
+    
+    newProjectile.zRotation = projectileRotation
+    
+    let moveAction = SKAction.moveBy(x: moveX,
+                                     y: moveY,
+                                     duration: newProjectile.travelTime)
+    moveAction.timingMode = .easeOut
+    
+    let finish = SKAction.run {
+      if newProjectile.removeAfterThrow {
+        newProjectile.removeFromParent()
+      }
+    }
+    
+    let sequence = SKAction.sequence([moveAction, finish])
+    
+    newProjectile.run(sequence)
+    
+    if newProjectile.rotationTime > 0 {
+      let rotateAction = SKAction.rotate(byAngle: CGFloat.pi * 2,
+                                         duration: newProjectile.rotationTime)
+      let repeatAction = SKAction.repeat(rotateAction,
+                                         count: Int(newProjectile.travelTime / newProjectile.rotationTime))
+      newProjectile.run(repeatAction)
+    }
+    
+    if walkWithPath {
+      thePlayer.removeAction(forKey: thePlayer.backWalk)
+      thePlayer.removeAction(forKey: thePlayer.frontWalk)
+      thePlayer.removeAction(forKey: thePlayer.leftWalk)
+      thePlayer.removeAction(forKey: thePlayer.rightWalk)
+    }
+    
+    
+  } // rangedAttack
 
   func enterPortalInCurrentLevel(withLocationName toWhere: String, delay: TimeInterval) {
     
