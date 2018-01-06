@@ -63,6 +63,9 @@ class GameScene: SKScene {
   
   var hasCustomPadScene = false
   
+  var meleeAttackButton = SKSpriteNode()
+  var rangedAttackButton = SKSpriteNode()
+  
   // Projectiles
   var projectiles = [String: Any]()
   var prevProjectile = [String: Any]()
@@ -171,7 +174,13 @@ class GameScene: SKScene {
         speechIcon = iconNode
         speechIcon.isHidden = true
       }
-      
+      if let abButton = childNode(withName: "//RangedButton") as? SKSpriteNode {
+        rangedAttackButton = abButton
+      }
+      if let abButton = childNode(withName: "//MeleeButton") as? SKSpriteNode {
+        meleeAttackButton = abButton
+      }
+
       
     } // HUD node found
     

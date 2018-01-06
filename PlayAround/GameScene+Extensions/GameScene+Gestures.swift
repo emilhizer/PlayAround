@@ -34,6 +34,7 @@ extension GameScene {
     view?.addGestureRecognizer(rotateRec)
     */
     
+    /* No longer using tap gestures
     // Single tap for melee attack
     tapRec.addTarget(self, action: #selector(tappedView(_:)))
     tapRec.numberOfTouchesRequired = 1
@@ -45,6 +46,7 @@ extension GameScene {
     doubleTapRec.numberOfTouchesRequired = 1
     doubleTapRec.numberOfTapsRequired = 2
     view?.addGestureRecognizer(doubleTapRec)
+    */
   } // setupGestures
 
   

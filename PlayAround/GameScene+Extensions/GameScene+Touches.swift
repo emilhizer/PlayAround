@@ -24,7 +24,54 @@ extension GameScene {
                               pow(currentPoint.y - lastTouchLocation.y, 2) )
     lastTouchLocation = currentPoint
     return deltaDistance
-  }
+  } // getDeltaDistance
+  
+  // MARK: - Action Buttons
+  
+  func checkIfMeleeButtonPressed(atPos pos: CGPoint) -> Bool {
+    var pressed = false
+    let touchedNode = nodes(at: pos).first
+    
+    if let nodeName = touchedNode?.name, nodeName == "MeleeButton" {
+      pressed = true
+      highlightAndFadeAttackButtons()
+    }
+    
+    return pressed
+  } // checkIfMeleeButtonPressed
+  
+  func checkIfRangedButtonPressed(atPos pos: CGPoint) -> Bool {
+    var pressed = false
+    let touchedNode = nodes(at: pos).first
+    
+    if let nodeName = touchedNode?.name, nodeName == "RangedButton" {
+      pressed = true
+      highlightAndFadeAttackButtons()
+    }
+    
+    return pressed
+  } // checkIfMeleeButtonPressed
+  
+  func highlightAndFadeAttackButtons() {
+    rangedAttackButton.removeAllActions()
+    meleeAttackButton.removeAllActions()
+    
+    rangedAttackButton.alpha = 1
+    meleeAttackButton.alpha = 1
+    
+    let fadeOut = SKAction.fadeAlpha(to: 0.05, duration: 1)
+    rangedAttackButton.run(fadeOut)
+    meleeAttackButton.run(fadeOut)
+  } // highlightAndFadeAttackButtons
+  
+  func fadeInAttackButtons() {
+    rangedAttackButton.removeAllActions()
+    meleeAttackButton.removeAllActions()
+
+    let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.1)
+    rangedAttackButton.run(fadeIn)
+    meleeAttackButton.run(fadeIn)
+  } // fadeInAttackButtons
 
   // MARK: - Touch Down
   func touchDownOnPath(atPoint pos: CGPoint) {
@@ -44,7 +91,7 @@ extension GameScene {
 
     let posInHUD = convert(pos, to: hudNode)
     let playerPosInHUD = convert(thePlayer.position, to: hudNode)
-    print("-- Touched Down w VPad at GS Point: \(pos); HUD Point: \(posInHUD)")
+//    print("-- Touched Down w VPad at GS Point: \(pos); HUD Point: \(posInHUD)")
     
     // VPad only enabled when touching left side of screen
     if posInHUD.x < 0 {
@@ -131,7 +178,16 @@ extension GameScene {
   // MARK: - Touch Handlers
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if let location = touches.first?.location(in: self) {
-      if walkWithPath {
+      if checkIfMeleeButtonPressed(atPos: location) {
+        print("--Melee Button Pressed")
+        meleeAttack()
+      }
+      else if checkIfRangedButtonPressed(atPos: location) {
+        print("--Ranged Button Pressed")
+        rangedAttackStart()
+      }
+
+      else if walkWithPath {
         touchDownOnPath(atPoint: location)
       } else {
         touchDownWithVPad(atPoint: location)
@@ -157,7 +213,8 @@ extension GameScene {
         touchUpWithVPad(atPoint: location)
       }
     }
-  }
+    fadeInAttackButtons()
+  } // touchesEnded
   
   override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
     playerPath.removeAll()

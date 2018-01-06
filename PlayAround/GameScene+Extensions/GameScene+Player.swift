@@ -170,6 +170,12 @@ extension GameScene {
   }
 
   // Player attack
+  func meleeAttack() {
+    if !disableAttack {
+      attack()
+    }
+  } // meleeAttack()
+  
   func attack() {
     let newAttack = AttackArea(imageNamed:"AttackCircle")
     newAttack.position = thePlayer.position
@@ -204,6 +210,30 @@ extension GameScene {
     thePlayer.run(SKAction.sequence([attackAction, finishAction]), withKey: "Attack")
     
   } // attack
+  
+  func rangedAttackStart() {
+    if !disableAttack {
+      if thePlayer.currentProjectileName != "" {
+        
+        if prevProjectileName == thePlayer.currentProjectileName {
+          print("-- Reusing Projectile: \(prevProjectileName)")
+          rangedAttack(withProjectile: prevProjectile)
+          
+        } else {
+          if let currentProjectile = projectiles[thePlayer.currentProjectileName] as? [String: Any] {
+            print("-- Found Projectile: \(currentProjectile)")
+            prevProjectileName = thePlayer.currentProjectileName
+            prevProjectile = currentProjectile
+            if let value = currentProjectile["Image"] as? String {
+              prevProjectileImageName = value
+            }
+            rangedAttack(withProjectile: prevProjectile)
+          } // Found projectile
+        }
+        
+      } // Has currentProjectile
+    } // Attack not disabled
+  } // rangedAttackStart
   
   func rangedAttack(withProjectile projectile: [String: Any]) {
     print("  -- Ranged attack with projectile \(projectile)")
@@ -268,7 +298,6 @@ extension GameScene {
       thePlayer.removeAction(forKey: thePlayer.leftWalk)
       thePlayer.removeAction(forKey: thePlayer.rightWalk)
     }
-    
     
   } // rangedAttack
 
