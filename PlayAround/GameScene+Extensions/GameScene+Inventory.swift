@@ -17,21 +17,24 @@ extension GameScene {
   func parseItemRewards(withDict dict: [String: Any]) {
     
     for (key, value) in dict {
-      /*
-      if let health = value as? String, key == "Health" {
+      if let health = value as? Int, key == "Health" {
+        increaseHealth(byAmount: health)
       }
-      else if let weapon = value as? String, key == "Weapon" {
+      else if let armor = value as? Int, key == "Armor" {
+        increaseArmor(byAmount: armor)
       }
-      else if let xp = value as? String, key == "XP" {
+      else if let xp = value as? Int, key == "XP" {
+        increaseXP(byAmount: xp)
       }
-      else if let currency = value as? String, key == "Currency" {
+      else if let currency = value as? Int, key == "Currency" {
+        increaseCurrency(byAmount: currency)
       }
-      else if let playerClass = value as? String, key == "Class" {
+      else if let playerClass = value as? String, key == "ClassName", playerClass != "" {
+        changeClass(toNewClass: playerClass)
       }
+      
       // Catch all (named) inventory items that have a numberical (qty) reward
-      else
-      */
-      if let newAmount = value as? Int {
+      else if let newAmount = value as? Int {
         addToInventory(withName: key, andAmount: newAmount)
       }
       
@@ -39,6 +42,47 @@ extension GameScene {
     
   } // getRequiredItemInfo
 
+  // Increase stats
+  func increaseHealth(byAmount amount: Int) {
+    thePlayer.currentHealth += amount
+    thePlayer.currentHealth = min(thePlayer.currentHealth, thePlayer.maxHealth)
+    defaults.set(thePlayer.currentHealth, forKey: "CurrentHealth")
+    updateStatsLabels()
+  }
+  
+  func increaseArmor(byAmount amount: Int) {
+    thePlayer.currentArmor += amount
+    thePlayer.currentArmor = min(thePlayer.currentArmor, thePlayer.maxArmor)
+    defaults.set(thePlayer.currentArmor, forKey: "CurrentArmor")
+    updateStatsLabels()
+  }
+  
+  func increaseXP(byAmount amount: Int) {
+    thePlayer.currentXP += amount
+    defaults.set(thePlayer.currentXP, forKey: "CurrentXP")
+    
+    // Level up
+    if thePlayer.currentXP >= thePlayer.maxXP {
+      thePlayer.currentXPLevel += 1
+      loadXPInfo(forCurrentXPLevel: thePlayer.currentXPLevel)
+      defaults.set(thePlayer.currentXPLevel, forKey: "CurrentXPLevel")
+    }    
+    
+    updateStatsLabels()
+  }
+  
+  func increaseCurrency(byAmount amount: Int) {
+    thePlayer.currency += amount
+    defaults.set(thePlayer.currency, forKey: "Currency")
+    updateStatsLabels()
+  }
+  
+  func changeClass(toNewClass className: String) {
+    thePlayer.currentClass = className
+    defaults.set(thePlayer.currentClass, forKey: "CurrentClass")
+    parsePropertyListForPlayer(className: className)
+    updateStatsLabels()
+  }
   
   // Found an item, add it to player inventory
   func addToInventory(withName inventoryName: String, andAmount amount: Int) {

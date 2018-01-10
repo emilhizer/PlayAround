@@ -65,6 +65,19 @@ class GameScene: SKScene {
   
   var meleeAttackButton = SKSpriteNode()
   var rangedAttackButton = SKSpriteNode()
+  var hasMeleeButton = false
+  var hasRangedButton = false
+  
+  // Stats Labels
+  var labelHealth = SKLabelNode()
+  var labelArmor = SKLabelNode()
+  var labelXP = SKLabelNode()
+  var labelXPLevel = SKLabelNode()
+  var labelCurrency = SKLabelNode()
+  var labelClass = SKLabelNode()
+
+  // Stats XP Array
+  var xpArray = [ [String: Any] ]()
   
   // Projectiles
   var projectiles = [String: Any]()
@@ -124,7 +137,7 @@ class GameScene: SKScene {
     setupGestures()
     
     setupCameraAndHUD()
-    
+
     setupPlayer()
     
     setupGameObjects()
@@ -134,6 +147,11 @@ class GameScene: SKScene {
     clearTaggedItems(withArray: clearItems)
     
     parseItemRewards(withDict: rewards)
+
+    loadStatsInfo()
+    
+    updateStatsLabels()
+
     
     // Display all the physics contacts to console
 //    checkPhysics()
@@ -160,6 +178,33 @@ class GameScene: SKScene {
         }
       }
       
+      // Stats Bar
+      if let labelNode = childNode(withName: "//LabelHealth") as? SKLabelNode {
+        labelNode.text = ""
+        labelHealth = labelNode
+      }
+      if let labelNode = childNode(withName: "//LabelArmor") as? SKLabelNode {
+        labelNode.text = ""
+        labelArmor = labelNode
+      }
+      if let labelNode = childNode(withName: "//LabelXP") as? SKLabelNode {
+        labelNode.text = ""
+        labelXP = labelNode
+      }
+      if let labelNode = childNode(withName: "//LabelXPLevel") as? SKLabelNode {
+        labelNode.text = ""
+        labelXPLevel = labelNode
+      }
+      if let labelNode = childNode(withName: "//LabelCurrency") as? SKLabelNode {
+        labelNode.text = ""
+        labelCurrency = labelNode
+      }
+      if let labelNode = childNode(withName: "//LabelClass") as? SKLabelNode {
+        labelNode.text = ""
+        labelClass = labelNode
+      }
+      
+      // Info Labels
       if let infoLabel = childNode(withName: "//InfoLabel1") as? SKLabelNode {
         print(" -- Found label1")
         infoLabel1 = infoLabel
@@ -174,6 +219,8 @@ class GameScene: SKScene {
         speechIcon = iconNode
         speechIcon.isHidden = true
       }
+      
+      // Buttons
       if let abButton = childNode(withName: "//RangedButton") as? SKSpriteNode {
         rangedAttackButton = abButton
       }
@@ -186,10 +233,86 @@ class GameScene: SKScene {
     
   } // setupCameraAndHUD
   
+  func loadStatsInfo() {
+    if defaults.integer(forKey: "MaxHealth") != 0 {
+      thePlayer.maxHealth = defaults.integer(forKey: "MaxHealth")
+    } else {
+      defaults.set(thePlayer.maxHealth, forKey: "MaxHealth")
+    }
+    
+    if defaults.integer(forKey: "CurrentHealth") != 0 {
+      thePlayer.currentHealth = defaults.integer(forKey: "CurrentHealth")
+    } else {
+      defaults.set(thePlayer.currentHealth, forKey: "CurrentHealth")
+    }
+    
+    if defaults.integer(forKey: "MaxArmor") != 0 {
+      thePlayer.maxArmor = defaults.integer(forKey: "MaxArmor")
+    } else {
+      defaults.set(thePlayer.maxArmor, forKey: "MaxArmor")
+    }
+    
+    if defaults.integer(forKey: "CurrentArmor") != 0 {
+      thePlayer.currentArmor = defaults.integer(forKey: "CurrentArmor")
+    } else {
+      defaults.set(thePlayer.currentArmor, forKey: "CurrentArmor")
+    }
+    
+    if defaults.integer(forKey: "CurrentXP") != 0 {
+      thePlayer.currentXP = defaults.integer(forKey: "CurrentXP")
+    } else {
+      defaults.set(thePlayer.currentXP, forKey: "CurrentXP")
+    }
+    
+    if defaults.integer(forKey: "XPLevel") != 0 {
+      thePlayer.currentXPLevel = defaults.integer(forKey: "CurrentXPLevel")
+    } else {
+      defaults.set(thePlayer.currentXPLevel, forKey: "CurrentXPLevel")
+    }
+    loadXPInfo(forCurrentXPLevel: thePlayer.currentXPLevel)
+    
+    if defaults.integer(forKey: "Currency") != 0 {
+      thePlayer.currency = defaults.integer(forKey: "Currency")
+    } else {
+      defaults.set(thePlayer.currency, forKey: "Currency")
+    }
+    
+    if let value = defaults.string(forKey: "CurrentClass"), value != "" {
+      thePlayer.currentClass = value
+    } else {
+      defaults.set(thePlayer.currentClass, forKey: "CurrentClass")
+    }
+
+  } // loadStatsInfo
   
+  func loadXPInfo(forCurrentXPLevel xpLevel: Int) {
+    guard xpArray.count > 0 else {
+      fatalError("Trying to load XP Array that has no data")
+    }
+    guard xpLevel < xpArray.count else {
+      fatalError("Leveled up to a value above max defined")
+    }
+    
+    let xpDictionary = xpArray[xpLevel]
+    
+    if let value = xpDictionary["Name"] as? String {
+      thePlayer.currentXPLevelName = value
+    }
+    if let value = xpDictionary["Max"] as? Int {
+      thePlayer.maxXP = value
+    }
+
+  } // loadXPInfo
   
-  
-  
+  func updateStatsLabels() {
+    print("-- Updating stats labels")
+    labelHealth.text = String(thePlayer.currentHealth) + "/" + String(thePlayer.maxHealth)
+    labelArmor.text = String(thePlayer.currentArmor) + "/" + String(thePlayer.maxArmor)
+    labelXP.text = String(thePlayer.currentXP) + "/" + String(thePlayer.maxXP)
+    labelCurrency.text = String(thePlayer.currency)
+    labelXPLevel.text = thePlayer.currentXPLevelName
+    labelClass.text = thePlayer.currentClass
+  } // updateStatsLabels
   
   // MARK: - Update
   override func update(_ currentTime: TimeInterval) {

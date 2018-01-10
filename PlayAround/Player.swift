@@ -36,12 +36,19 @@ class Player: SKSpriteNode {
   
   var walkSpeedOnPath = CGFloat(200) // default is 200 pxl/second
   var walkSpeed = CGFloat(150) // speed when not on path
-  var maxHealth = 20
-  var maxArmor = 20
   var immunityTime = TimeInterval(1)
   
-  var currentHealth = 20
-  var currentArmor = 20
+  var currentHealth = 0
+  var maxHealth = 0
+  var currentArmor = 0
+  var maxArmor = 0
+  var currentXP = 0
+  var maxXP = 0
+  var currentXPLevel = 0
+  var currentXPLevelName = ""
+  var currency = 0
+  var currentClass = ""
+  
   var currentProjectileName = ""
 
 
@@ -150,21 +157,24 @@ class Player: SKSpriteNode {
       } // Ranged
 
       if let statsDict = value as? [String: Any], key == "Stats" {
+        if let value = statsDict["ClassName"] as? String {
+          currentClass = value
+        }
         if let value = statsDict["PathSpeed"] as? CGFloat {
           walkSpeedOnPath = value
         }
         if let value = statsDict["Speed"] as? CGFloat {
           walkSpeed = value
         }
-        if let value = statsDict["Health"] as? Int {
+        if let value = statsDict["MaxHealth"] as? Int {
           maxHealth = value
           currentHealth = maxHealth // set current health to max health
         }
-        if let value = statsDict["Armor"] as? Int {
+        if let value = statsDict["MaxArmor"] as? Int {
           maxArmor = value
           currentArmor = maxArmor
         }
-        if let value = statsDict["Armor"] as? TimeInterval {
+        if let value = statsDict["Immunity"] as? TimeInterval {
           immunityTime = value
         }
       } // Stats

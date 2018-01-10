@@ -70,6 +70,11 @@ extension GameScene {
       projectiles = projectilesDict
     } // Get and save projectiles
     
+    // Get and save XP array (an array of dictionaries)
+    if let value = result["XP"] as? [[String: Any]] {
+      xpArray = value
+    }
+    
   } // setupGameData
   
   // Create the NPC

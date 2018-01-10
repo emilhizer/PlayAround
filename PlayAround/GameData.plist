@@ -244,7 +244,7 @@
 					</dict>
 					<key>Rewards</key>
 					<dict>
-						<key>Diamonds</key>
+						<key>Currency</key>
 						<string>10</string>
 					</dict>
 					<key>Text</key>
@@ -503,14 +503,14 @@
 			<key>Rewards</key>
 			<dict>
 				<key>Health</key>
-				<string></string>
+				<integer>0</integer>
 				<key>Weapon</key>
 				<string></string>
 				<key>Inventory</key>
 				<string></string>
 				<key>Currency</key>
-				<string></string>
-				<key>Class</key>
+				<integer>0</integer>
+				<key>ClassName</key>
 				<string></string>
 			</dict>
 			<key>Text</key>
@@ -656,14 +656,16 @@
 			</dict>
 			<key>Stats</key>
 			<dict>
+				<key>ClassName</key>
+				<string>Peasant</string>
 				<key>PathSpeed</key>
 				<integer>200</integer>
 				<key>Speed</key>
 				<integer>150</integer>
-				<key>Health</key>
+				<key>MaxHealth</key>
 				<integer>20</integer>
-				<key>Armor</key>
-				<integer>20</integer>
+				<key>MaxArmor</key>
+				<integer>10</integer>
 				<key>Immunity</key>
 				<integer>1</integer>
 			</dict>
@@ -700,5 +702,27 @@
 			<true/>
 		</dict>
 	</dict>
+	<key>XP</key>
+	<array>
+		<dict>
+			<key>Name</key>
+			<string>Level 1</string>
+			<key>Max</key>
+			<integer>200</integer>
+			<key>Rewards</key>
+			<dict>
+				<key>Health</key>
+				<integer>0</integer>
+				<key>Armor</key>
+				<integer>0</integer>
+				<key>XP</key>
+				<integer>0</integer>
+				<key>Currency</key>
+				<integer>0</integer>
+				<key>ClassName</key>
+				<string></string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
